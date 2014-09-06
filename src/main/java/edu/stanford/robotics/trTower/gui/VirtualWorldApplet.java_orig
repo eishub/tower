@@ -1,0 +1,28 @@
+package edu.stanford.robotics.trTower.virtualWorld;
+
+import java.awt.*;
+import java.awt.geom.*;
+import javax.swing.*;
+
+import edu.stanford.robotics.trTower.common.*;
+
+
+public class VirtualWorldApplet 
+    extends AnimatorApplet {
+    
+    private double x=0, y=0;
+    public void animStep() {
+	//	System.out.println("VirtualWorldApplet> animStep> x="+x+" y="+y);
+	x++;
+	y++;
+    }
+
+    public void paint(Graphics g) {
+	Graphics2D g2 = (Graphics2D)g;
+	//	g2.setColor(Color.orange);
+        g2.draw(new Rectangle2D.Double(x, y, 50, 50));
+	g2.drawString("Testing", 100, 100);
+    }
+
+    
+}

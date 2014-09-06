@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  
+    <title>Durative Action</title>
+  </head><body>
+  
+  <h1>Durative Action</h1>
+  A durative action is an action that once initiated, it will be
+  executed continuously. 
+
+  <p>
+  The TRTower has three basic durative actions: pickup(x), putdown(x,
+  y), and nil().
+
+  </p><ul>
+  <li>Pickup(x) picks up block x. The block is only considered picked
+  up when the claw has closed completely. If the robot arm is already
+  holding block x, then it does nothing.
+
+  </li><li>Putdown(x, y) puts down block x on block y, or, if y is the
+  table id (TA), then x is put down on the table. The block is
+  considered put down once the claw opens up. If the robot arm is not
+  holding block x, or the destination block y is not clear (e.g.,
+  beneath another block or being held), then the robot arm will not
+  move, but generates an error message (displayed in the bottom right
+  "Durative Action Status" panel).
+
+  </li><li>Nil() simply returns the robot arm to its home position (top
+  left corner). If the robot arm is holding a block, the block will
+  also be carried along to the home position.
+  
+  </li></ul>
+
+  <p>
+  The higher-level actions (e.g., maketower, move-to-table) are
+  achieved using these three basic durative actions.
+  
+  </p></body></html>
