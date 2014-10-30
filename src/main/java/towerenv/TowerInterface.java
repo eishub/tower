@@ -1,8 +1,10 @@
+package towerenv;
+
 /**
  * @modified Koen V. Hindriks
  * @modified W.Pasman 6dec09 EIS0.3 porting #1390
+ * @modified W.Pasman 30oct14 EIS0.4
  */
-package towerenv;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -11,6 +13,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import towerenv.TowerEnvironment;
 import edu.stanford.robotics.trTower.virtualWorld.Block;
 import edu.stanford.robotics.trTower.virtualWorld.VirtualWorld;
 import edu.stanford.robotics.trTower.virtualWorld.VirtualWorldSensor;
@@ -191,7 +194,7 @@ public class TowerInterface extends EIDefaultImpl implements Observer {
 	 */
 	@Override
 	public String requiredVersion() {
-		return "0.3";
+		return "0.4";
 	}
 
 	/**
