@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import towerenv.TowerEnvironment;
 import edu.stanford.robotics.trTower.virtualWorld.Block;
 import edu.stanford.robotics.trTower.virtualWorld.VirtualWorld;
 import edu.stanford.robotics.trTower.virtualWorld.VirtualWorldSensor;
@@ -187,14 +186,6 @@ public class TowerInterface extends EIDefaultImpl implements Observer {
 		}
 
 		return percepts;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String requiredVersion() {
-		return "0.4";
 	}
 
 	/**

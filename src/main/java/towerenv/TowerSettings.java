@@ -49,10 +49,6 @@ public class TowerSettings {
 	 *            :x pos of top left corner
 	 * @param y
 	 *            :y pos of top left corner
-	 * @param width
-	 *            :width of the window
-	 * @param height
-	 *            :height of the window
 	 */
 	public static void setWindowParams(int x, int y) {
 		TowerSettings.prefs.putInt("x", x);
