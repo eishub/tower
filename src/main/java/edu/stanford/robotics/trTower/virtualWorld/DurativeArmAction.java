@@ -1,46 +1,45 @@
 package edu.stanford.robotics.trTower.virtualWorld;
 
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
 
 /**
- * DurativeArmAction is a general action that moves blocks around. It is
- * an abstract action, without actionStep() implementation. For a concrete, working
+ * DurativeArmAction is a general action that moves blocks around. It is an
+ * abstract action, without actionStep() implementation. For a concrete, working
  * action check the PickupAction and putDownAction.
  */
 public abstract class DurativeArmAction {
-	// --- properites
 	private RobotArm hostRobotArm;
 
 	protected RobotArm getHostRobotArm() {
-		return hostRobotArm;
+		return this.hostRobotArm;
 	}
 
-	void setHostRobotArm(RobotArm ra) {
-		hostRobotArm = ra;
+	void setHostRobotArm(final RobotArm ra) {
+		this.hostRobotArm = ra;
 	}
 
 	private VirtualWorldModel virtualWorldModel;
 
 	protected VirtualWorldModel getVirtualWorldModel() {
-		return virtualWorldModel;
+		return this.virtualWorldModel;
 	}
 
-	void setVirtualWorldModel(VirtualWorldModel m) {
-		virtualWorldModel = m;
+	void setVirtualWorldModel(final VirtualWorldModel m) {
+		this.virtualWorldModel = m;
 	}
 
 	private Point2D targetCoord;
 
 	Point2D getTargetCoord() {
-		return targetCoord;
+		return this.targetCoord;
 	}
 
-	void setTargetCoord(Point2D t) {
-		targetCoord = t;
+	void setTargetCoord(final Point2D t) {
+		this.targetCoord = t;
 	}
 
-	protected void setTargetCoord(double x, double y) {
-		targetCoord = new Point2D.Double(x, y);
+	protected void setTargetCoord(final double x, final double y) {
+		this.targetCoord = new Point2D.Double(x, y);
 	}
 
 	public abstract void actionStep();
@@ -48,14 +47,13 @@ public abstract class DurativeArmAction {
 	private String statusMessage = "";
 
 	String getStatusMessage() {
-		return statusMessage;
+		return this.statusMessage;
 	}
 
-	protected void setStatusMessage(String s) {
-		statusMessage = s;
+	protected void setStatusMessage(final String s) {
+		this.statusMessage = s;
 	}
 
-	// --- helper
 	double getXStep() {
 		return getVirtualWorldModel().getXStep();
 	}
@@ -64,8 +62,6 @@ public abstract class DurativeArmAction {
 		return getVirtualWorldModel().getYStep();
 	}
 
-	// double getRestX() { return getHostRobotArm().getArmRestCoord().getX(); }
-	// double getRestY() { return getHostRobotArm().getArmRestCoord().getY(); }
 	Point2D getArmRestCoord() {
 		return getHostRobotArm().getArmRestCoord();
 	}
@@ -82,15 +78,15 @@ public abstract class DurativeArmAction {
 		return getVirtualWorldModel().getBlockHeight();
 	}
 
-	boolean isXMatched(double x) {
+	boolean isXMatched(final double x) {
 		return getVirtualWorldModel().isXCloseEnough(getCoord().getX(), x);
 	}
 
-	boolean isYMatched(double y) {
+	boolean isYMatched(final double y) {
 		return getVirtualWorldModel().isYCloseEnough(getCoord().getY(), y);
 	}
 
-	boolean isCoordMatched(Point2D c) {
+	boolean isCoordMatched(final Point2D c) {
 		return isXMatched(c.getX()) && isYMatched(c.getY());
 	}
 
@@ -119,22 +115,18 @@ public abstract class DurativeArmAction {
 	}
 
 	/** move robotarm and block in the arm with distance dx,dy */
-	void updateCoord(double dx, double dy) {
-		// update coordidates
-		getHostRobotArm().setCoord(getCoord().getX() + dx,
-				getCoord().getY() + dy);
+	void updateCoord(final double dx, final double dy) {
+		// update coordinates
+		getHostRobotArm().setCoord(getCoord().getX() + dx, getCoord().getY() + dy);
 		// check if holding a block, update block too
-		Block blockHeld = getHostRobotArm().getBlockHeld();
+		final Block blockHeld = getHostRobotArm().getBlockHeld();
 		if (blockHeld != null) {
-			blockHeld.setCoord(blockHeld.getCoord().getX() + dx, blockHeld
-					.getCoord().getY()
-					+ dy);
+			blockHeld.setCoord(blockHeld.getCoord().getX() + dx, blockHeld.getCoord().getY() + dy);
 		}
 	}
 
-	/** move towards x, with steps getXStep() . */
-	void followX(double x) {
-
+	/** move towards x, with steps getXStep() */
+	void followX(final double x) {
 		// when moving, either completely open or close claw
 		if (getHostRobotArm().getBlockHeld() == null) {
 			getHostRobotArm().completelyOpenClaw();
@@ -164,8 +156,7 @@ public abstract class DurativeArmAction {
 		}
 	}
 
-	void followY(double y) {
-
+	void followY(final double y) {
 		// when moving, either completely open or close claw
 		if (getHostRobotArm().getBlockHeld() == null) {
 			getHostRobotArm().completelyOpenClaw();
@@ -174,7 +165,6 @@ public abstract class DurativeArmAction {
 		}
 
 		if (!getVirtualWorldModel().isYCloseEnough(getCoord().getY(), y)) {
-
 			if (getCoord().getY() > y) {
 				// greater than y
 				if (getCoord().getY() > y + getYStep()) {
@@ -216,8 +206,8 @@ public abstract class DurativeArmAction {
 class DemoAction extends DurativeArmAction {
 	private int state = 0;
 
+	@Override
 	public void actionStep() {
-
 		if (!getVirtualWorldModel().isAvailable()) {
 			setStatusMessage("External perturbation.");
 			return;
@@ -228,28 +218,30 @@ class DemoAction extends DurativeArmAction {
 		double x = getCoord().getX();
 		double y = getCoord().getY();
 
-		switch (state % 4) {
+		switch (this.state % 4) {
 		case 0:
 			x++;
-			if (x > 200)
-				state++;
+			if (x > 200) {
+				this.state++;
+			}
 			break;
-
 		case 1:
 			y++;
-			if (y > 150)
-				state++;
+			if (y > 150) {
+				this.state++;
+			}
 			break;
-
 		case 2:
 			x--;
-			if (x < 40)
-				state++;
+			if (x < 40) {
+				this.state++;
+			}
 			break;
 		default:
 			y--;
-			if (y < 60)
-				state++;
+			if (y < 60) {
+				this.state++;
+			}
 		}
 		getHostRobotArm().setCoord(x, y);
 	}

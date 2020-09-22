@@ -5,32 +5,30 @@ import edu.stanford.robotics.trTower.gui.PickupAction;
 import edu.stanford.robotics.trTower.gui.PutdownAction;
 
 public class VirtualWorldActionFactory {
-
-	// properties
 	private VirtualWorld virtualWorld;
 
 	public VirtualWorld getVirtualWorld() {
-		return virtualWorld;
+		return this.virtualWorld;
 	}
 
-	public void setVirtualWorld(VirtualWorld vw) {
-		virtualWorld = vw;
+	public void setVirtualWorld(final VirtualWorld vw) {
+		this.virtualWorld = vw;
 	}
 
 	public NilAction createNilAction() {
-		NilAction nilAction = new NilAction();
+		final NilAction nilAction = new NilAction();
 		getVirtualWorld().initDurativeArmAction(nilAction);
 		return nilAction;
 	}
 
 	public PickupAction createPickupAction() {
-		PickupAction pickupAction = new PickupAction();
+		final PickupAction pickupAction = new PickupAction();
 		getVirtualWorld().initDurativeArmAction(pickupAction);
 		return pickupAction;
 	}
 
 	public PutdownAction createPutdownAction() {
-		PutdownAction putdownAction = new PutdownAction();
+		final PutdownAction putdownAction = new PutdownAction();
 		getVirtualWorld().initDurativeArmAction(putdownAction);
 		return putdownAction;
 	}

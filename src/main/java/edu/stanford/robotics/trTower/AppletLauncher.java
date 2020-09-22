@@ -1,57 +1,63 @@
 package edu.stanford.robotics.trTower;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import edu.stanford.robotics.trTower.gui.*;
+import javax.swing.JApplet;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
+import edu.stanford.robotics.trTower.gui.TRCallApplet;
+
+@SuppressWarnings("deprecation")
 public class AppletLauncher extends JApplet {
-
-	private static Dimension defaultDimen = new Dimension(550, 400);
-	private boolean inAnApplet = true;
+	private static final long serialVersionUID = 1L;
 
 	public AppletLauncher() {
 		this(true);
 	}
 
-	public AppletLauncher(boolean inAnApplet) {
-		this.inAnApplet = inAnApplet;
+	public AppletLauncher(final boolean inAnApplet) {
 		if (inAnApplet) {
 			// Hack to avoid ugly message about system event access check.
-			getRootPane().putClientProperty("defeatSystemEventQueueCheck",
-					Boolean.TRUE);
+			getRootPane().putClientProperty("defeatSystemEventQueueCheck", Boolean.TRUE);
 		}
 	}
 
+	@Override
 	public void init() {
 		setContentPane(getAppContentPane());
 		getApplet().init();
 	}
 
+	@Override
 	public void start() {
 		getApplet().start();
 	}
 
+	@Override
 	public void stop() {
 		getApplet().stop();
 	}
 
+	@Override
 	public void destroy() {
 		getApplet().destroy();
 	}
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
+	public static void main(final String[] args) {
+		final JFrame frame = new JFrame();
 		// http: // slashdot.org/
 		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
+			@Override
+			public void windowClosing(final WindowEvent e) {
 				System.exit(0);
 			}
 		});
 
-		AppletLauncher a = new AppletLauncher(false);
-		// frame.setSize(defaultDimen);
+		final AppletLauncher a = new AppletLauncher(false);
 		frame.setTitle("Application version: AppletLauncher");
 		frame.setContentPane(a.getAppContentPane());
 		frame.pack();
@@ -65,21 +71,20 @@ public class AppletLauncher extends JApplet {
 	private JPanel appContentPane;
 
 	protected Container getAppContentPane() {
-		if (appContentPane == null) {
-			appContentPane = new JPanel();
-			appContentPane.setLayout(new BorderLayout());
-			appContentPane.add(getApplet());
+		if (this.appContentPane == null) {
+			this.appContentPane = new JPanel();
+			this.appContentPane.setLayout(new BorderLayout());
+			this.appContentPane.add(getApplet());
 		}
-		return appContentPane;
+		return this.appContentPane;
 	}
 
 	private JApplet applet;
 
 	protected JApplet getApplet() {
-		if (applet == null) {
-			// --- modify this
-			applet = new TRCallApplet();
+		if (this.applet == null) {
+			this.applet = new TRCallApplet();
 		}
-		return applet;
+		return this.applet;
 	}
 }

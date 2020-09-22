@@ -1,24 +1,25 @@
 package edu.stanford.robotics.trTower;
 
-import javax.swing.*;
+import javax.swing.JApplet;
 
-import edu.stanford.robotics.trTower.gui.*;
+import edu.stanford.robotics.trTower.gui.TRCallApplet;
 
+@SuppressWarnings("deprecation")
 public class TRCall extends AppletLauncher {
+	private static final long serialVersionUID = 1L;
 
-	//static JApplet getApplet() {
+	@Override
 	public JApplet getApplet() {
-		TRCall t = new TRCall();
+		final TRCall t = new TRCall();
 		return t.getTRCallApplet();
 	}
 
-	// --- components
 	private TRCallApplet trCallApplet;
 
 	protected TRCallApplet getTRCallApplet() {
-		if (trCallApplet == null) {
-			trCallApplet = new TRCallApplet();
+		if (this.trCallApplet == null) {
+			this.trCallApplet = new TRCallApplet();
 		}
-		return trCallApplet;
+		return this.trCallApplet;
 	}
 }

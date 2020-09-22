@@ -1,18 +1,19 @@
 package edu.stanford.robotics.trTower.actionTower;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-import edu.stanford.robotics.trTower.virtualWorld.*;
-import edu.stanford.robotics.trTower.modelTower.*;
-import edu.stanford.robotics.trTower.common.*;
-import edu.stanford.robotics.trTower.*;
+import edu.stanford.robotics.trTower.StimulatorListener;
+import edu.stanford.robotics.trTower.common.ListUtilities;
+import edu.stanford.robotics.trTower.modelTower.ModelTower;
+import edu.stanford.robotics.trTower.virtualWorld.VirtualWorld;
 
 /**
  * There is an internal trCallDescriptionList containing a list of
  * TRCallDescription objects.
  */
 public class ActionTower implements StimulatorListener {
-	
 	private ModelTower modelTower;
 	private VirtualWorld virtualWorld;
 	private boolean activeTRCallDescriptionChanged = false;
@@ -24,91 +25,87 @@ public class ActionTower implements StimulatorListener {
 	}
 
 	public void reset() {
-		TRCallDescription d = new TRCallDescription();
+		final TRCallDescription d = new TRCallDescription();
 		d.setTrFunction(TRCallDescription.NIL);
 		setActiveTRCallDescription(d);
 	}
 
 	public ModelTower getModelTower() {
-		return modelTower;
+		return this.modelTower;
 	}
 
-	public void setModelTower(ModelTower mt) {
-		modelTower = mt;
+	public void setModelTower(final ModelTower mt) {
+		this.modelTower = mt;
 	}
 
 	public VirtualWorld getVirtualWorld() {
-		return virtualWorld;
+		return this.virtualWorld;
 	}
 
-	public void setVirtualWorld(VirtualWorld vw) {
-		virtualWorld = vw;
+	public void setVirtualWorld(final VirtualWorld vw) {
+		this.virtualWorld = vw;
 	}
 
 	public TRCallDescription getActiveTRCallDescription() {
-		return activeTRCallDescription;
+		return this.activeTRCallDescription;
 	}
 
-	public void setActiveTRCallDescription(TRCallDescription d) {
-		if (activeTRCallDescription != d) {
-			activeTRCallDescription = d;
-			activeTRCallDescriptionChanged = true;
+	public void setActiveTRCallDescription(final TRCallDescription d) {
+		if (this.activeTRCallDescription != d) {
+			this.activeTRCallDescription = d;
+			this.activeTRCallDescriptionChanged = true;
 		}
 	}
-
-	// --- public components
 
 	public List<TRCallDescription> getTRCallDescriptionList() {
-		if (trCallDescriptionList == null) {
-			trCallDescriptionList = new ArrayList<TRCallDescription>();
+		if (this.trCallDescriptionList == null) {
+			this.trCallDescriptionList = new ArrayList<>();
 		}
-		return trCallDescriptionList;
+		return this.trCallDescriptionList;
 	}
 
-	// --- tr wrappers
-	
-	protected void trMakeTower(List s) {
-		TRCallDescription tr = new TRCallDescription();
+	protected void trMakeTower(final List<String> s) {
+		final TRCallDescription tr = new TRCallDescription();
 		tr.setTrFunction(TRCallDescription.MAKETOWER);
 		tr.setParameterList(s);
 		getTRCallDescriptionList().add(tr);
 		makeTower(s);
 	}
 
-	protected void trMoveToTable(String blockIdX) {
-		TRCallDescription tr = new TRCallDescription();
+	protected void trMoveToTable(final String blockIdX) {
+		final TRCallDescription tr = new TRCallDescription();
 		tr.setTrFunction(TRCallDescription.MOVETOTABLE);
 		tr.setParameterList(ListUtilities.newList(blockIdX));
 		getTRCallDescriptionList().add(tr);
 		moveToTable(blockIdX);
 	}
 
-	protected void trMove(String blockIdX, String blockIdY) {
-		TRCallDescription tr = new TRCallDescription();
+	protected void trMove(final String blockIdX, final String blockIdY) {
+		final TRCallDescription tr = new TRCallDescription();
 		tr.setTrFunction(TRCallDescription.MOVE);
 		tr.setParameterList(ListUtilities.newList(blockIdX, blockIdY));
 		getTRCallDescriptionList().add(tr);
 		move(blockIdX, blockIdY);
 	}
 
-	protected void trUnpile(String blockIdX) {
-		TRCallDescription tr = new TRCallDescription();
+	protected void trUnpile(final String blockIdX) {
+		final TRCallDescription tr = new TRCallDescription();
 		tr.setTrFunction(TRCallDescription.UNPILE);
 		tr.setParameterList(ListUtilities.newList(blockIdX));
 		getTRCallDescriptionList().add(tr);
 		unpile(blockIdX);
 	}
 
-	protected void trPickup(String blockIdX) {
-		TRCallDescription tr = new TRCallDescription();
+	protected void trPickup(final String blockIdX) {
+		final TRCallDescription tr = new TRCallDescription();
 		tr.setTrFunction(TRCallDescription.PICKUP);
 		tr.setParameterList(ListUtilities.newList(blockIdX));
 		getTRCallDescriptionList().add(tr);
 		pickup(blockIdX);
 	}
 
-	protected void trPutdown(String blockId, String objectId) {
-		TRCallDescription tr = new TRCallDescription();
+	protected void trPutdown(final String blockId, final String objectId) {
+		final TRCallDescription tr = new TRCallDescription();
 		tr.setTrFunction(TRCallDescription.PUTDOWN);
 		tr.setParameterList(ListUtilities.newList(blockId, objectId));
 		getTRCallDescriptionList().add(tr);
@@ -116,56 +113,53 @@ public class ActionTower implements StimulatorListener {
 	}
 
 	protected void trNil() {
-		TRCallDescription tr = new TRCallDescription();
+		final TRCallDescription tr = new TRCallDescription();
 		tr.setTrFunction(TRCallDescription.NIL);
-		tr.setParameterList(new ArrayList());
+		tr.setParameterList(new ArrayList<>(0));
 		getTRCallDescriptionList().add(tr);
 		nil();
 	}
 
-	// --- attributes
 	private boolean toBeReset = false;
 
 	public boolean isToBeReset() {
-		return toBeReset;
+		return this.toBeReset;
 	}
 
-	public void setToBeReset(boolean r) {
-		toBeReset = r;
+	public void setToBeReset(final boolean r) {
+		this.toBeReset = r;
 	}
 
 	private boolean available = true;
 
 	public boolean isAvailable() {
-		return available;
+		return this.available;
 	}
 
-	public void setAvailable(boolean a) {
-		available = a;
+	public void setAvailable(final boolean a) {
+		this.available = a;
 	}
 
 	private boolean changed = false;
 
 	public boolean isChanged() {
-		return changed;
+		return this.changed;
 	}
 
-	public void setChanged(boolean c) {
-		changed = c;
+	public void setChanged(final boolean c) {
+		this.changed = c;
 	}
 
-	// --- public methods
-
-	public boolean isValidBlockId(String id) {
+	public boolean isValidBlockId(final String id) {
 		return getVirtualWorld().isValidBlockId(id);
 	}
 
-	public boolean isValidTargetId(String id) {
+	public boolean isValidTargetId(final String id) {
 		return isValidBlockId(id) || id.equals(getVirtualWorld().getTableId());
 	}
 
+	@Override
 	public void stimuStep() {
-
 		if (isToBeReset()) {
 			reset();
 			setToBeReset(false);
@@ -178,7 +172,7 @@ public class ActionTower implements StimulatorListener {
 			setAvailable(true);
 		}
 
-		if (!activeTRCallDescriptionChanged) {
+		if (!this.activeTRCallDescriptionChanged) {
 			// no new durative action call set
 			if (!getModelTower().isChanged()) {
 				// model tower not changed
@@ -192,29 +186,27 @@ public class ActionTower implements StimulatorListener {
 		// --- reset
 		getTRCallDescriptionList().clear();
 
-		TRCallDescription atr = getActiveTRCallDescription();
-		List p = atr.getParameterList();
+		final TRCallDescription atr = getActiveTRCallDescription();
+		final List<String> p = atr.getParameterList();
 
 		switch (atr.getTrFunction()) {
 		case TRCallDescription.MAKETOWER:
 			trMakeTower(p);
 			break;
 		case TRCallDescription.MOVETOTABLE:
-			trMoveToTable((String) (ListUtilities.car(p)));
+			trMoveToTable((ListUtilities.car(p)));
 			break;
 		case TRCallDescription.MOVE:
-			trMove((String) (ListUtilities.car(p)), (String) (ListUtilities
-					.cadr(p)));
+			trMove((ListUtilities.car(p)), (ListUtilities.cadr(p)));
 			break;
 		case TRCallDescription.UNPILE:
-			trUnpile((String) (ListUtilities.car(p)));
+			trUnpile((ListUtilities.car(p)));
 			break;
 		case TRCallDescription.PICKUP:
-			trPickup((String) (ListUtilities.car(p)));
+			trPickup((ListUtilities.car(p)));
 			break;
 		case TRCallDescription.PUTDOWN:
-			trPutdown((String) (ListUtilities.car(p)), (String) (ListUtilities
-					.cadr(p)));
+			trPutdown((ListUtilities.car(p)), (ListUtilities.cadr(p)));
 			break;
 		case TRCallDescription.NIL:
 			trNil();
@@ -223,31 +215,25 @@ public class ActionTower implements StimulatorListener {
 
 	}
 
-	// --- TR sequences
-
 	// 2001-05-17. Based on the updated (from original paper)
 	// ActionTower description.
-
-	protected void makeTower(List s) {
-
+	protected void makeTower(final List<String> s) {
 		if (getModelTower().isTower(s)) {
 			trNil();
 		} else if (getModelTower().isOrdered(s)) {
-			trUnpile((String) (ListUtilities.car(s)));
+			trUnpile((ListUtilities.car(s)));
 		} else if (ListUtilities.cdr(s).size() == 0) {
-			trMoveToTable((String) (ListUtilities.car(s)));
+			trMoveToTable((ListUtilities.car(s)));
 		} else if (getModelTower().isTower(ListUtilities.cdr(s))) {
-			trMove((String) (ListUtilities.car(s)), (String) (ListUtilities
-					.cadr(s)));
+			trMove((ListUtilities.car(s)), (ListUtilities.cadr(s)));
 		} else {
 			trMakeTower(ListUtilities.cdr(s));
 		}
 	}
 
-	protected void moveToTable(String blockIdX) {
-
+	protected void moveToTable(final String blockIdX) {
 		// prepare variable(s) for testing conditions
-		String blockIdY = getBlockHeld();
+		final String blockIdY = getBlockHeld();
 
 		if (getModelTower().isOn(blockIdX, getVirtualWorld().getTableId())) {
 			trNil();
@@ -260,20 +246,17 @@ public class ActionTower implements StimulatorListener {
 		}
 	}
 
-	protected void move(String blockIdX, String blockIdY) {
-
+	protected void move(final String blockIdX, final String blockIdY) {
 		// prepare variable(s) for testing conditions
-		String blockIdZ = getBlockHeld();
+		final String blockIdZ = getBlockHeld();
 
 		if (getModelTower().isOn(blockIdX, blockIdY)) {
 			trNil();
-		} else if (getModelTower().isHolding(blockIdX)
-				&& getModelTower().isClear(blockIdY)) {
+		} else if (getModelTower().isHolding(blockIdX) && getModelTower().isClear(blockIdY)) {
 			trPutdown(blockIdX, blockIdY);
 		} else if (blockIdZ != null) {
 			trPutdown(blockIdZ, getVirtualWorld().getTableId());
-		} else if (getModelTower().isClear(blockIdX)
-				&& getModelTower().isClear(blockIdY)) {
+		} else if (getModelTower().isClear(blockIdX) && getModelTower().isClear(blockIdY)) {
 			trPickup(blockIdX);
 		} else if (getModelTower().isClear(blockIdY)) {
 			trUnpile(blockIdX);
@@ -282,14 +265,13 @@ public class ActionTower implements StimulatorListener {
 		}
 	}
 
-	protected void unpile(String blockIdX) {
-
+	protected void unpile(final String blockIdX) {
 		if (getModelTower().isClear(blockIdX)) {
 			trNil();
 		} else {
-			Iterator i = getModelTower().getExistingBlockIds().iterator();
+			final Iterator<String> i = getModelTower().getExistingBlockIds().iterator();
 			while (i.hasNext()) {
-				String blockIdY = (String) (i.next());
+				final String blockIdY = (i.next());
 				if (getModelTower().isOn(blockIdY, blockIdX)) {
 					trMoveToTable(blockIdY);
 					return;
@@ -298,11 +280,11 @@ public class ActionTower implements StimulatorListener {
 		}
 	}
 
-	protected void pickup(String blockIdX) {
+	protected void pickup(final String blockIdX) {
 		getVirtualWorld().pickup(blockIdX);
 	}
 
-	protected void putdown(String blockId, String objectId) {
+	protected void putdown(final String blockId, final String objectId) {
 		getVirtualWorld().putdown(blockId, objectId);
 	}
 
@@ -310,13 +292,13 @@ public class ActionTower implements StimulatorListener {
 		getVirtualWorld().nil();
 	}
 
-	// --- helpers
 	protected String getBlockHeld() {
-		Iterator i = getModelTower().getExistingBlockIds().iterator();
+		final Iterator<String> i = getModelTower().getExistingBlockIds().iterator();
 		while (i.hasNext()) {
-			String blockIdZ = (String) (i.next());
-			if (getModelTower().isHolding(blockIdZ))
+			final String blockIdZ = (i.next());
+			if (getModelTower().isHolding(blockIdZ)) {
 				return blockIdZ;
+			}
 		}
 		return null;
 	}

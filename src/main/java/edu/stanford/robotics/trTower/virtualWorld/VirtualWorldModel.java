@@ -1,17 +1,19 @@
 package edu.stanford.robotics.trTower.virtualWorld;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
-
+import java.awt.Graphics;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Holds the blocks and renders and manipulates them. if user is manipulating,
  * isAvailable returns false.
  */
 public class VirtualWorldModel {
-
 	private boolean available = true;
 
 	/**
@@ -19,189 +21,187 @@ public class VirtualWorldModel {
 	 *          mouse)
 	 */
 	public boolean isAvailable() {
-		return available;
+		return this.available;
 	}
 
-	public void setAvailable(boolean a) {
-		available = a;
+	public void setAvailable(final boolean a) {
+		this.available = a;
 	}
 
 	private boolean changed = false;
 
 	public boolean isChanged() {
-		return changed;
+		return this.changed;
 	}
 
-	public void setChanged(boolean c) {
-		changed = c;
+	public void setChanged(final boolean c) {
+		this.changed = c;
 	}
 
-	// properties
 	private String tableId;
 
 	public String getTableId() {
-		return tableId;
+		return this.tableId;
 	}
 
-	void setTableId(String s) {
-		tableId = s;
+	void setTableId(final String s) {
+		this.tableId = s;
 	}
 
 	private double xStep;
 
 	double getXStep() {
-		return xStep;
+		return this.xStep;
 	}
 
-	void setXStep(double x) {
-		xStep = x;
+	void setXStep(final double x) {
+		this.xStep = x;
 	}
 
 	private double yStep;
 
 	double getYStep() {
-		return yStep;
+		return this.yStep;
 	}
 
-	void setYStep(double y) {
-		yStep = y;
+	void setYStep(final double y) {
+		this.yStep = y;
 	}
 
 	private double xFloatErrorMargin;
 
 	double getXFloatErrorMargin() {
-		return xFloatErrorMargin;
+		return this.xFloatErrorMargin;
 	}
 
-	void setXFloatErrorMargin(double x) {
-		xFloatErrorMargin = x;
+	void setXFloatErrorMargin(final double x) {
+		this.xFloatErrorMargin = x;
 	}
 
 	private double yFloatErrorMargin;
 
 	double getYFloatErrorMargin() {
-		return yFloatErrorMargin;
+		return this.yFloatErrorMargin;
 	}
 
-	void setYFloatErrorMargin(double y) {
-		yFloatErrorMargin = y;
+	void setYFloatErrorMargin(final double y) {
+		this.yFloatErrorMargin = y;
 	}
 
 	private double blockWidth;
 
 	double getBlockWidth() {
-		return blockWidth;
+		return this.blockWidth;
 	}
 
-	void setBlockWidth(double w) {
-		blockWidth = w;
+	void setBlockWidth(final double w) {
+		this.blockWidth = w;
 	}
 
 	private double blockHeight;
 
 	double getBlockHeight() {
-		return blockHeight;
+		return this.blockHeight;
 	}
 
-	void setBlockHeight(double h) {
-		blockHeight = h;
+	void setBlockHeight(final double h) {
+		this.blockHeight = h;
 	}
 
 	private double columnWidth;
 
 	double getColumnWidth() {
-		return columnWidth;
+		return this.columnWidth;
 	}
 
-	void setColumnWidth(double w) {
-		columnWidth = w;
+	void setColumnWidth(final double w) {
+		this.columnWidth = w;
 	}
 
 	private double leftMargin;
 
 	double getLeftMargin() {
-		return leftMargin;
+		return this.leftMargin;
 	}
 
-	void setLeftMargin(double l) {
-		leftMargin = l;
+	void setLeftMargin(final double l) {
+		this.leftMargin = l;
 	}
 
 	private double rightMargin;
 
 	double getRightMargin() {
-		return rightMargin;
+		return this.rightMargin;
 	}
 
-	void setRightMargin(double r) {
-		rightMargin = r;
+	void setRightMargin(final double r) {
+		this.rightMargin = r;
 	}
 
 	private double topMargin;
 
 	double getTopMargin() {
-		return topMargin;
+		return this.topMargin;
 	}
 
-	void setTopMargin(double t) {
-		topMargin = t;
+	void setTopMargin(final double t) {
+		this.topMargin = t;
 	}
 
 	private double bottomMargin;
 
 	double getBottomMargin() {
-		return bottomMargin;
+		return this.bottomMargin;
 	}
 
-	void setBottomMargin(double b) {
-		bottomMargin = b;
+	void setBottomMargin(final double b) {
+		this.bottomMargin = b;
 	}
 
 	private Point2D armRestCoord;
 
 	Point2D getArmRestCoord() {
-		return armRestCoord;
+		return this.armRestCoord;
 	}
 
-	void setArmRestCoord(Point2D r) {
-		armRestCoord = r;
+	void setArmRestCoord(final Point2D r) {
+		this.armRestCoord = r;
 	}
 
-	void setArmRestCoord(double x, double y) {
-		armRestCoord = new Point2D.Double(x, y);
+	void setArmRestCoord(final double x, final double y) {
+		this.armRestCoord = new Point2D.Double(x, y);
 	}
 
 	private double armLengthClearence;
 
 	double getArmLengthClearence() {
-		return armLengthClearence;
+		return this.armLengthClearence;
 	}
 
-	void setArmLengthClearence(double c) {
-		armLengthClearence = c;
+	void setArmLengthClearence(final double c) {
+		this.armLengthClearence = c;
 	}
 
 	private double virtualWorldWidth;
 
 	double getVirtualWorldWidth() {
-		return virtualWorldWidth;
+		return this.virtualWorldWidth;
 	}
 
-	void setVirtualWorldWidth(double w) {
-		virtualWorldWidth = w;
+	void setVirtualWorldWidth(final double w) {
+		this.virtualWorldWidth = w;
 	}
 
 	private double virtualWorldHeight;
 
 	double getVirtualWorldHeight() {
-		return virtualWorldHeight;
+		return this.virtualWorldHeight;
 	}
 
-	void setVirtualWorldHeight(double h) {
-		virtualWorldHeight = h;
+	void setVirtualWorldHeight(final double h) {
+		this.virtualWorldHeight = h;
 	}
 
-	// derived
 	public double getFloorY() {
 		return getVirtualWorldHeight() - getBottomMargin();
 	}
@@ -210,39 +210,43 @@ public class VirtualWorldModel {
 		return getTopMargin();
 	}
 
-	void render(Graphics g) {
+	void render(final Graphics g) {
 		// first render blocks that are not held
-		Iterator iBlock = getVirtualObjectList().iterator();
+		final Iterator<VirtualObject> iBlock = getVirtualObjectList().iterator();
 		while (iBlock.hasNext()) {
-			Object oBlock = iBlock.next();
+			final Object oBlock = iBlock.next();
 			if (oBlock instanceof Block) {
-				Block block = (Block) oBlock;
-				if (block.isCoordLegal() && !block.isBeingHeld())
+				final Block block = (Block) oBlock;
+				if (block.isCoordLegal() && !block.isBeingHeld()) {
 					block.render(g);
+				}
 			}
 		}
 
 		// then render robot arm or block being held
-		Iterator iHold = getVirtualObjectList().iterator();
+		final Iterator<VirtualObject> iHold = getVirtualObjectList().iterator();
 		while (iHold.hasNext()) {
-			Object oHold = iHold.next();
+			final Object oHold = iHold.next();
 			if (oHold instanceof RobotArm) {
-				RobotArm robotArm = (RobotArm) oHold;
-				if (robotArm.isCoordLegal())
+				final RobotArm robotArm = (RobotArm) oHold;
+				if (robotArm.isCoordLegal()) {
 					robotArm.render(g);
+				}
 			} else if (oHold instanceof Block) {
-				Block heldBlock = (Block) oHold;
-				if (heldBlock.isCoordLegal() && heldBlock.isBeingHeld())
+				final Block heldBlock = (Block) oHold;
+				if (heldBlock.isCoordLegal() && heldBlock.isBeingHeld()) {
 					heldBlock.render(g);
+				}
 			}
 		}
 
 		// then render objects with illegal coord (so they appear on top)
-		Iterator j = getVirtualObjectList().iterator();
+		final Iterator<VirtualObject> j = getVirtualObjectList().iterator();
 		while (j.hasNext()) {
-			VirtualObject voIllegal = (VirtualObject) j.next();
-			if (!voIllegal.isCoordLegal())
+			final VirtualObject voIllegal = j.next();
+			if (!voIllegal.isCoordLegal()) {
 				voIllegal.render(g);
+			}
 		}
 	}
 
@@ -252,332 +256,257 @@ public class VirtualWorldModel {
 	 * Returns list of all virtual objects.
 	 */
 	public List<VirtualObject> getVirtualObjectList() {
-		if (virtualObjectList == null) {
-			virtualObjectList = new ArrayList<VirtualObject>();
+		if (this.virtualObjectList == null) {
+			this.virtualObjectList = new LinkedList<>();
 		}
-		return virtualObjectList;
+		return this.virtualObjectList;
 	}
 
-	// private String statusMessage;
-	// public String getStatusMessage() { return statusMessage; }
-	// public void setStatusMessage(String s) { statusMessage = s; }
-
-	// methods
 	void reset() {
 		getVirtualObjectList().clear();
 		setChanged(true);
 	}
 
-	void addVirtualObject(VirtualObject vo) {
-
+	void addVirtualObject(final VirtualObject vo) {
 		if (vo.getId() == null) {
-			System.out
-					.println("VirtualWorldModel.addVirtualObject> vo.getId() is null");
+			System.out.println("VirtualWorldModel.addVirtualObject> vo.getId() is null");
 			System.exit(-1);
 		}
 		if (vo.getPaint() == null) {
-			System.out
-					.println("VirtualWorldModel.addVirtualObject> vo.getPaint() is null");
+			System.out.println("VirtualWorldModel.addVirtualObject> vo.getPaint() is null");
 			System.exit(-1);
 		}
 
 		if (findVirtualObject(vo.getId()) != null) {
-			System.out
-					.println("VirtualWorldModel.addVirtualObject> vo.getId() already exists");
+			System.out.println("VirtualWorldModel.addVirtualObject> vo.getId() already exists");
 			System.exit(-1);
 		}
 		getVirtualObjectList().add(vo);
 	}
 
-	// --- geometry of VirtualWorld
 	int getMaxNumOfColumns() {
-
-		double maxNumOfColumns = (getVirtualWorldWidth() - getLeftMargin() - getRightMargin())
-				/ getColumnWidth();
-		// System.out.println("getMaxNumOfColumns()= " + maxNumOfColumns);
-		// System.out.println("(int)getMaxNumOfColumns()= " +
-		// (int)maxNumOfColumns);
+		final double maxNumOfColumns = (getVirtualWorldWidth() - getLeftMargin() - getRightMargin()) / getColumnWidth();
 		return (int) maxNumOfColumns;
 	}
 
 	int getMaxNumOfRows() {
-		double maxNumOfRows = (getVirtualWorldHeight()
-				- getArmLengthClearence() - getTopMargin() - getBottomMargin())
-				/ getBlockHeight();
-		// System.out.println("getMaxNumberOfRows()= " + maxNumOfRows);
-		// System.out.println("(int)getMaxNumberOfRows()= " +
-		// (int)maxNumOfRows);
+		final double maxNumOfRows = (getVirtualWorldHeight() - getArmLengthClearence() - getTopMargin()
+				- getBottomMargin()) / getBlockHeight();
 		return (int) maxNumOfRows;
 	}
 
-	// --- lower level query
-	// returns null if not found
-	public VirtualObject findVirtualObject(String id) {
-		Iterator i = getVirtualObjectList().iterator();
+	public VirtualObject findVirtualObject(final String id) {
+		final Iterator<VirtualObject> i = getVirtualObjectList().iterator();
 		VirtualObject vo;
 		while (i.hasNext()) {
-			vo = (VirtualObject) (i.next());
-			if (vo.getId().equals(id))
+			vo = (i.next());
+			if (vo.getId().equals(id)) {
 				return vo;
-		}
-		return null;
-	}
-
-	boolean isValidBlockId(String id) {
-		Object vo = findVirtualObject(id);
-		return vo instanceof Block ? true : false;
-	}
-
-	// returns null if not found
-	// VirtualObject findVirtualObjectAt(Point2D coord) {
-	// return findVirtualObjectAt(coord.getX(), coord.getY());
-	// }
-	// VirtualObject findVirtualObjectAt(double x, double y) {
-	// Iterator i = getVirtualObjectList().iterator();
-	// VirtualObject vo;
-	// while (i.hasNext()) {
-	// vo = (VirtualObject)(i.next());
-	// if (isXCloseEnough(vo.getCoord().getX(), x) &&
-	// isYCloseEnough(vo.getCoord().getY(), y))
-	// return vo;
-	// }
-	// return null;
-	// }
-	Block findBlockAt(Point2D coord) {
-		return findBlockAt(coord.getX(), coord.getY());
-	}
-
-	Block findBlockAt(double x, double y) {
-		Iterator i = getVirtualObjectList().iterator();
-		VirtualObject vo;
-		while (i.hasNext()) {
-			vo = (VirtualObject) (i.next());
-			if (vo instanceof Block && isXCloseEnough(vo.getCoord().getX(), x)
-					&& isYCloseEnough(vo.getCoord().getY(), y))
-				return (Block) vo;
-		}
-		return null;
-	}
-
-	// VirtualObject findLegalCoordVirtualObjectAt(Point2D coord) {
-	// return findLegalCoordVirtualObjectAt(coord.getX(), coord.getY());
-	// }
-	// VirtualObject findLegalCoordVirtualObjectAt(double x, double y) {
-	// Iterator i = getVirtualObjectList().iterator();
-	// VirtualObject vo;
-	// while (i.hasNext()) {
-	// vo = (VirtualObject)(i.next());
-	// if (vo.isCoordLegal() &&
-	// isXCloseEnough(vo.getCoord().getX(), x) &&
-	// isYCloseEnough(vo.getCoord().getY(), y))
-	// return vo;
-	// }
-	// return null;
-	// }
-	Block findLegalCoordBlockAt(Point2D coord) {
-		return findLegalCoordBlockAt(coord.getX(), coord.getY());
-	}
-
-	Block findLegalCoordBlockAt(double x, double y) {
-		Iterator i = getVirtualObjectList().iterator();
-		VirtualObject vo;
-		while (i.hasNext()) {
-			vo = (VirtualObject) (i.next());
-			if (vo.isCoordLegal() && vo instanceof Block
-					&& isXCloseEnough(vo.getCoord().getX(), x)
-					&& isYCloseEnough(vo.getCoord().getY(), y))
-				return (Block) vo;
-		}
-		return null;
-	}
-
-	Block findLegalCoordUnheldBlockAt(Point2D coord) {
-		return findLegalCoordUnheldBlockAt(coord.getX(), coord.getY());
-	}
-
-	Block findLegalCoordUnheldBlockAt(double x, double y) {
-		Iterator i = getVirtualObjectList().iterator();
-		VirtualObject vo;
-		while (i.hasNext()) {
-			vo = (VirtualObject) (i.next());
-			if (vo.isCoordLegal() && vo instanceof Block
-					&& isXCloseEnough(vo.getCoord().getX(), x)
-					&& isYCloseEnough(vo.getCoord().getY(), y)) {
-				Block block = (Block) vo;
-				if (!block.isBeingHeld())
-					return block;
 			}
 		}
 		return null;
 	}
 
-	Block findOtherLegalCoordUnheldBlockAt(Point2D coord, Block block) {
-		return findOtherLegalCoordUnheldBlockAt(coord.getX(), coord.getY(),
-				block);
+	boolean isValidBlockId(final String id) {
+		final Object vo = findVirtualObject(id);
+		return vo instanceof Block ? true : false;
 	}
 
-	Block findOtherLegalCoordUnheldBlockAt(double x, double y, Block block) {
-		Iterator i = getVirtualObjectList().iterator();
+	Block findBlockAt(final Point2D coord) {
+		return findBlockAt(coord.getX(), coord.getY());
+	}
+
+	Block findBlockAt(final double x, final double y) {
+		final Iterator<VirtualObject> i = getVirtualObjectList().iterator();
 		VirtualObject vo;
 		while (i.hasNext()) {
-			vo = (VirtualObject) (i.next());
+			vo = (i.next());
+			if (vo instanceof Block && isXCloseEnough(vo.getCoord().getX(), x)
+					&& isYCloseEnough(vo.getCoord().getY(), y)) {
+				return (Block) vo;
+			}
+		}
+		return null;
+	}
+
+	Block findLegalCoordBlockAt(final Point2D coord) {
+		return findLegalCoordBlockAt(coord.getX(), coord.getY());
+	}
+
+	Block findLegalCoordBlockAt(final double x, final double y) {
+		final Iterator<VirtualObject> i = getVirtualObjectList().iterator();
+		VirtualObject vo;
+		while (i.hasNext()) {
+			vo = (i.next());
+			if (vo.isCoordLegal() && vo instanceof Block && isXCloseEnough(vo.getCoord().getX(), x)
+					&& isYCloseEnough(vo.getCoord().getY(), y)) {
+				return (Block) vo;
+			}
+		}
+		return null;
+	}
+
+	Block findLegalCoordUnheldBlockAt(final Point2D coord) {
+		return findLegalCoordUnheldBlockAt(coord.getX(), coord.getY());
+	}
+
+	Block findLegalCoordUnheldBlockAt(final double x, final double y) {
+		final Iterator<VirtualObject> i = getVirtualObjectList().iterator();
+		VirtualObject vo;
+		while (i.hasNext()) {
+			vo = (i.next());
+			if (vo.isCoordLegal() && vo instanceof Block && isXCloseEnough(vo.getCoord().getX(), x)
+					&& isYCloseEnough(vo.getCoord().getY(), y)) {
+				final Block block = (Block) vo;
+				if (!block.isBeingHeld()) {
+					return block;
+				}
+			}
+		}
+		return null;
+	}
+
+	Block findOtherLegalCoordUnheldBlockAt(final Point2D coord, final Block block) {
+		return findOtherLegalCoordUnheldBlockAt(coord.getX(), coord.getY(), block);
+	}
+
+	Block findOtherLegalCoordUnheldBlockAt(final double x, final double y, final Block block) {
+		final Iterator<VirtualObject> i = getVirtualObjectList().iterator();
+		VirtualObject vo;
+		while (i.hasNext()) {
+			vo = (i.next());
 			if (vo instanceof Block) {
-
-				Block candidateBlock = (Block) vo;
-
-				if (candidateBlock != block && candidateBlock.isCoordLegal()
-						&& !candidateBlock.isBeingHeld()
+				final Block candidateBlock = (Block) vo;
+				if (candidateBlock != block && candidateBlock.isCoordLegal() && !candidateBlock.isBeingHeld()
 						&& isXCloseEnough(candidateBlock.getCoord().getX(), x)
-						&& isYCloseEnough(candidateBlock.getCoord().getY(), y))
+						&& isYCloseEnough(candidateBlock.getCoord().getY(), y)) {
 					return candidateBlock;
+				}
 			}
 		}
 		return null;
 	}
 
 	List<String> getExistingBlockIds() {
-		Iterator<VirtualObject> i = getVirtualObjectList().iterator();
+		final Iterator<VirtualObject> i = getVirtualObjectList().iterator();
 		Object o;
-		List<String> blockIdList = new ArrayList<String>();
+		final List<String> blockIdList = new ArrayList<>();
 		while (i.hasNext()) {
 			o = i.next();
 			if (o instanceof Block) {
-				Block b = (Block) o;
+				final Block b = (Block) o;
 				blockIdList.add(b.getId());
 			}
 		}
 		return blockIdList;
 	}
 
-	// --- easy high level model query
-	// being held is NOT clear
-	public boolean isBlockClear(Block b) {
-		Block block = findLegalCoordUnheldBlockAt(b.getCoord().getX(), b
-				.getCoord().getY()
-				- getBlockHeight());
+	public boolean isBlockClear(final Block b) {
+		final Block block = findLegalCoordUnheldBlockAt(b.getCoord().getX(), b.getCoord().getY() - getBlockHeight());
 		if (b.isBeingHeld()) {
-			// block is being held, not clear
-			return false;
+			return false; // block is being held, not clear
 		} else {
 			return block == null ? true : false;
 		}
 	}
 
-	// Block getBlockUnder(String blockId) {
-	// VirtualObject vo = findVirtualObject(blockId);
-	// if (!(vo instanceof Block))
-	// return null;
-	// else
-	// return getBlockUnder((Block)vo);
-	// }
-
-	// Block getBlockUnder(Block b) {
-	// VirtualObject vo =
-	// findVirtualObjectAt(b.getCoord().getX(),
-	// b.getCoord().getY()+getBlockHeight());
-	// if (!(vo instanceof Block))
-	// return null;
-	// else
-	// return (Block)vo;
-
-	// }
-
-	Block getBlockOnTopOf(String blockId) {
-		VirtualObject vo = findVirtualObject(blockId);
-		if (!(vo instanceof Block))
+	Block getBlockOnTopOf(final String blockId) {
+		final VirtualObject vo = findVirtualObject(blockId);
+		if (!(vo instanceof Block)) {
 			return null;
-		else
+		} else {
 			return getBlockOnTopOf((Block) vo);
+		}
 	}
 
-	Block getBlockOnTopOf(Block b) {
-		return findLegalCoordUnheldBlockAt(b.getCoord().getX(), b.getCoord()
-				.getY()
-				- getBlockHeight());
+	Block getBlockOnTopOf(final Block b) {
+		return findLegalCoordUnheldBlockAt(b.getCoord().getX(), b.getCoord().getY() - getBlockHeight());
 	}
 
-	boolean isBlockOnTable(String blockId) {
-		VirtualObject vo = findVirtualObject(blockId);
-		if (!(vo instanceof Block))
+	boolean isBlockOnTable(final String blockId) {
+		final VirtualObject vo = findVirtualObject(blockId);
+		if (!(vo instanceof Block)) {
 			return false;
-		else
+		} else {
 			return isBlockOnTable((Block) vo);
+		}
 	}
 
-	boolean isBlockOnTable(Block b) {
-		if (b.isBeingHeld())
-			// the object is not setted, so not on table yet
-			return false;
-		else if (isYCloseEnough(b.getCoord().getY(), getFloorY()))
+	boolean isBlockOnTable(final Block b) {
+		if (b.isBeingHeld()) {
+			return false; // the object is held, so not on table yet
+		} else if (isYCloseEnough(b.getCoord().getY(), getFloorY())) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
 	 * @modified: 15apr09: made public.
 	 */
-	public boolean isOn(String objectIdX, String objectIdY) {
-
+	public boolean isOn(final String objectIdX, final String objectIdY) {
 		if (getTableId().equals(objectIdY)) {
 			// is block on Table?
 			return isBlockOnTable(objectIdX);
 		} else {
-			Block b = getBlockOnTopOf(objectIdY);
-			if (b == null)
+			final Block b = getBlockOnTopOf(objectIdY);
+			if (b == null) {
 				return false;
-			else if (b.getId().equals(objectIdX))
+			} else if (b.getId().equals(objectIdX)) {
 				return true;
-			else
+			} else {
 				return false;
+			}
 		}
 	}
 
 	int getNumOfBlocks() {
-		Iterator i = getVirtualObjectList().iterator();
+		final Iterator<VirtualObject> i = getVirtualObjectList().iterator();
 		VirtualObject vo;
 		int sum = 0;
 		while (i.hasNext()) {
-			vo = (VirtualObject) (i.next());
-			if (vo instanceof Block)
+			vo = (i.next());
+			if (vo instanceof Block) {
 				sum++;
+			}
 		}
 		return sum;
 	}
 
-	boolean isColumnEmpty(int columnNum) {
-		Block block = findLegalCoordUnheldBlockAt(columnToXCoord(columnNum),
-				getFloorY());
+	boolean isColumnEmpty(final int columnNum) {
+		final Block block = findLegalCoordUnheldBlockAt(columnToXCoord(columnNum), getFloorY());
 		return block == null ? true : false;
 	}
 
-	boolean isColumnOccupied(int columnNum) {
-		Block block = findLegalCoordBlockAt(columnToXCoord(columnNum),
-				getFloorY());
+	boolean isColumnOccupied(final int columnNum) {
+		final Block block = findLegalCoordBlockAt(columnToXCoord(columnNum), getFloorY());
 		return block == null ? false : true;
 	}
 
-	// returns -1 if all full
 	int findFirstEmptyColumn() {
-		for (int i = 0; i < getMaxNumOfColumns(); i++)
-			if (isColumnEmpty(i))
+		for (int i = 0; i < getMaxNumOfColumns(); i++) {
+			if (isColumnEmpty(i)) {
 				return i;
+			}
+		}
 		return -1;
 	}
 
 	int findFirstNonOccupiedColumn() {
-		for (int i = 0; i < getMaxNumOfColumns(); i++)
-			if (!isColumnOccupied(i))
+		for (int i = 0; i < getMaxNumOfColumns(); i++) {
+			if (!isColumnOccupied(i)) {
 				return i;
+			}
+		}
 		return -1;
 	}
 
-	public int findClosestEmptyColumnFromXCoord(double xCoord) {
+	public int findClosestEmptyColumnFromXCoord(final double xCoord) {
 		return findClosestEmptyColumnFromColumn(xCoordToClosestColumn(xCoord));
 	}
 
-	int findClosestEmptyColumnFromColumn(int currentColumn) {
-
+	int findClosestEmptyColumnFromColumn(final int currentColumn) {
 		if (isColumnEmpty(currentColumn)) {
 			return currentColumn;
 		}
@@ -588,12 +517,12 @@ public class VirtualWorldModel {
 		int right;
 
 		for (int delta = 1; !(exhaustedRight && exhaustedLeft); delta++) {
-
 			left = currentColumn - delta;
 			exhaustedLeft = left < 0 ? true : false;
 			if (!exhaustedLeft) {
-				if (isColumnEmpty(left))
+				if (isColumnEmpty(left)) {
 					return left;
+				}
 			} else {
 				exhaustedLeft = true;
 			}
@@ -601,17 +530,17 @@ public class VirtualWorldModel {
 			right = currentColumn + delta;
 			exhaustedRight = right >= getMaxNumOfColumns() ? true : false;
 			if (!exhaustedRight) {
-				if (isColumnEmpty(right))
+				if (isColumnEmpty(right)) {
 					return right;
+				}
 			} else {
 				exhaustedRight = true;
 			}
-
 		}
+
 		return -1;
 	}
 
-	// --- helper
 	boolean isMaxNumOfBlocksReached() {
 		return getNumOfBlocks() >= getMaxNumOfBlocks() ? true : false;
 	}
@@ -620,21 +549,16 @@ public class VirtualWorldModel {
 		return Math.min(getMaxNumOfColumns(), getMaxNumOfRows());
 	}
 
-	void addBlockInFirstNonEmptyColumn(Block b) {
-
-		// setStatusMessage("");
+	void addBlockInFirstNonEmptyColumn(final Block b) {
 		if (isMaxNumOfBlocksReached()) {
-			System.out.println("A maximum of " + getMaxNumOfBlocks()
-					+ " blocks already exist.");
-			// setStatusMessage("A maximum of " + maxNumOfBlocks +
-			// " blocks already exist.");
+			System.out.println("A maximum of " + getMaxNumOfBlocks() + " blocks already exist.");
 			return;
 		}
 
-		int i = findFirstEmptyColumn();
+		final int i = findFirstEmptyColumn();
 		if (i < 0) {
-			System.out
-					.println("VirtualWorldModel.addBlockInFristNonEmptyColumn> Should NOT happen! Cannot find empty column.");
+			System.out.println(
+					"VirtualWorldModel.addBlockInFristNonEmptyColumn> Should NOT happen! Cannot find empty column.");
 			System.exit(-1);
 			return;
 		}
@@ -644,21 +568,16 @@ public class VirtualWorldModel {
 		setChanged(true);
 	}
 
-	void addBlockInFirstNonOccupiedColumn(Block b) {
-
-		// setStatusMessage("");
-		int maxNumOfBlocks = Math.min(getMaxNumOfColumns(), getMaxNumOfRows());
+	void addBlockInFirstNonOccupiedColumn(final Block b) {
+		final int maxNumOfBlocks = Math.min(getMaxNumOfColumns(), getMaxNumOfRows());
 		if (getNumOfBlocks() >= maxNumOfBlocks) {
-			System.out.println("A maximum of " + maxNumOfBlocks
-					+ " blocks already exist.");
-			// setStatusMessage("A maximum of " + maxNumOfBlocks +
-			// " blocks already exist.");
+			System.out.println("A maximum of " + maxNumOfBlocks + " blocks already exist.");
 			return;
 		}
-		int i = findFirstNonOccupiedColumn();
+		final int i = findFirstNonOccupiedColumn();
 		if (i < 0) {
-			System.out
-					.println("VirtualWorldModel.addBlockInFristNonEmptyColumn> Should NOT happen! Cannot find empty column.");
+			System.out.println(
+					"VirtualWorldModel.addBlockInFristNonEmptyColumn> Should NOT happen! Cannot find empty column.");
 			System.exit(-1);
 			return;
 		}
@@ -669,19 +588,16 @@ public class VirtualWorldModel {
 	}
 
 	// --- for drag and drop
-	Block findBlockIntersectWith(Point2D point) {
-
+	Block findBlockIntersectWith(final Point2D point) {
 		// first try to match block that is being held
-		ListIterator liHeld = getVirtualObjectList().listIterator(
-				getVirtualObjectList().size());
+		final ListIterator<VirtualObject> liHeld = getVirtualObjectList().listIterator(getVirtualObjectList().size());
 		Object oHeld;
 		while (liHeld.hasPrevious()) {
 			oHeld = liHeld.previous();
 			if (oHeld instanceof Block) {
-				Block heldBlock = (Block) oHeld;
-				Rectangle2D heldRectangle = new Rectangle2D.Double(heldBlock
-						.getCoord().getX(), heldBlock.getCoord().getY()
-						- getBlockHeight(), getBlockWidth(), getBlockHeight());
+				final Block heldBlock = (Block) oHeld;
+				final Rectangle2D heldRectangle = new Rectangle2D.Double(heldBlock.getCoord().getX(),
+						heldBlock.getCoord().getY() - getBlockHeight(), getBlockWidth(), getBlockHeight());
 				if (heldRectangle.contains(point)) {
 					return heldBlock;
 				}
@@ -689,16 +605,14 @@ public class VirtualWorldModel {
 		}
 
 		// find in the rest of the blocks
-		ListIterator li = getVirtualObjectList().listIterator(
-				getVirtualObjectList().size());
+		final ListIterator<VirtualObject> li = getVirtualObjectList().listIterator(getVirtualObjectList().size());
 		Object o;
 		while (li.hasPrevious()) {
 			o = li.previous();
 			if (o instanceof Block) {
-				Block block = (Block) o;
-				Rectangle2D rectangle = new Rectangle2D.Double(block.getCoord()
-						.getX(), block.getCoord().getY() - getBlockHeight(),
-						getBlockWidth(), getBlockHeight());
+				final Block block = (Block) o;
+				final Rectangle2D rectangle = new Rectangle2D.Double(block.getCoord().getX(),
+						block.getCoord().getY() - getBlockHeight(), getBlockWidth(), getBlockHeight());
 				if (rectangle.contains(point)) {
 					return block;
 				}
@@ -707,21 +621,20 @@ public class VirtualWorldModel {
 		return null;
 	}
 
-	void snapMoveBlock(Block block, Point2D targetCoord) {
+	void snapMoveBlock(final Block block, final Point2D targetCoord) {
 		takeOutBlock(block);
 		snapBlock(block, targetCoord);
 		insertBlock(block);
 	}
 
-	void takeOutBlock(Block block) {
-
+	void takeOutBlock(final Block block) {
 		if (!block.isCoordLegal()) {
 			// if block location not legal, block already taken out
 			return;
 		}
 
 		// block on table or other block (could be null)
-		Block topBlock = getBlockOnTopOf(block);
+		final Block topBlock = getBlockOnTopOf(block);
 
 		// make block coord illegal
 		block.setCoordLegal(false);
@@ -744,26 +657,24 @@ public class VirtualWorldModel {
 		setChanged(true);
 	}
 
-	void moveDownBlock(Block block) {
+	void moveDownBlock(final Block block) {
 		if (block == null) {
 			// base case
 			return;
 		}
-		Block topBlock = getBlockOnTopOf(block);
+		final Block topBlock = getBlockOnTopOf(block);
 		// move down block
-		Point2D coord = block.getCoord();
+		final Point2D coord = block.getCoord();
 		block.setCoord(coord.getX(), coord.getY() + getBlockHeight());
 		// move down the block on top
 		moveDownBlock(topBlock);
 	}
 
-	void snapBlock(Block block, Point2D targetCoord) {
-
+	void snapBlock(final Block block, final Point2D targetCoord) {
 		setChanged(true);
 		// check if block snaps to one of the groud points
 		for (int i = 0; i < getMaxNumOfColumns(); i++) {
-			Point2D groundPoint = new Point2D.Double(columnToXCoord(i),
-					getFloorY());
+			final Point2D groundPoint = new Point2D.Double(columnToXCoord(i), getFloorY());
 			if (isPointWithinSnapZone(targetCoord, groundPoint)) {
 				block.setCoord(groundPoint);
 				block.setCoordLegal(true);
@@ -772,18 +683,16 @@ public class VirtualWorldModel {
 		}
 
 		// check if block snaps on top one of the blocks
-		Iterator i = getVirtualObjectList().iterator();
+		final Iterator<VirtualObject> i = getVirtualObjectList().iterator();
 		Object o;
 		while (i.hasNext()) {
 			o = i.next();
 			if (o instanceof Block) {
-				Block stepBlock = (Block) o;
-				if (stepBlock.isCoordLegal()
-						&& stepBlock.isBeingHeld() == false) {
+				final Block stepBlock = (Block) o;
+				if (stepBlock.isCoordLegal() && stepBlock.isBeingHeld() == false) {
 					// can snap to a block that is being transported.
-					Point2D stepBlockTop = new Point2D.Double(stepBlock
-							.getCoord().getX(), stepBlock.getCoord().getY()
-							- getBlockHeight());
+					final Point2D stepBlockTop = new Point2D.Double(stepBlock.getCoord().getX(),
+							stepBlock.getCoord().getY() - getBlockHeight());
 					if (isPointWithinSnapZone(targetCoord, stepBlockTop)) {
 						block.setCoord(stepBlockTop);
 						block.setCoordLegal(true);
@@ -794,17 +703,16 @@ public class VirtualWorldModel {
 		}
 
 		// check if block snaps to robot arm (only if arm not holding anything)
-		Iterator j = getVirtualObjectList().iterator();
+		final Iterator<VirtualObject> j = getVirtualObjectList().iterator();
 		Object p;
 		while (j.hasNext()) {
 			p = j.next();
 			if (p instanceof RobotArm) {
-				RobotArm robotArm = (RobotArm) p;
+				final RobotArm robotArm = (RobotArm) p;
 				if (robotArm.getBlockHeld() == null) {
 					// (only if arm not holding anything)
-					Point2D armPoint = new Point2D.Double(robotArm.getCoord()
-							.getX(), robotArm.getCoord().getY()
-							+ getBlockHeight());
+					final Point2D armPoint = new Point2D.Double(robotArm.getCoord().getX(),
+							robotArm.getCoord().getY() + getBlockHeight());
 					if (isPointWithinSnapZone(targetCoord, armPoint)) {
 						block.setCoord(armPoint);
 						block.setCoordLegal(true);
@@ -829,18 +737,16 @@ public class VirtualWorldModel {
 	private static final double snapX = 10;
 	private static final double snapY = 10;
 
-	boolean isPointWithinSnapZone(Point2D point, Point2D centerPoint) {
-		if (point.getX() >= centerPoint.getX() - snapX
-				&& point.getX() <= centerPoint.getX() + snapX
-				&& point.getY() >= centerPoint.getY() - snapY
-				&& point.getY() <= centerPoint.getY() + snapY)
+	boolean isPointWithinSnapZone(final Point2D point, final Point2D centerPoint) {
+		if (point.getX() >= centerPoint.getX() - snapX && point.getX() <= centerPoint.getX() + snapX
+				&& point.getY() >= centerPoint.getY() - snapY && point.getY() <= centerPoint.getY() + snapY) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
-	void insertBlock(Block block) {
-
+	void insertBlock(final Block block) {
 		if (!block.isCoordLegal()) {
 			// if block location not legal, leave it where it is
 			return;
@@ -851,8 +757,7 @@ public class VirtualWorldModel {
 			block.getHoldingRobotArm().completelyCloseClaw();
 		} else {
 			// move up blocks
-			Block blockToBeMoved = findOtherLegalCoordUnheldBlockAt(block
-					.getCoord(), block);
+			final Block blockToBeMoved = findOtherLegalCoordUnheldBlockAt(block.getCoord(), block);
 			moveUpBlock(blockToBeMoved);
 		}
 		// set block legal
@@ -860,7 +765,7 @@ public class VirtualWorldModel {
 		setChanged(true);
 	}
 
-	void moveUpBlock(Block block) {
+	void moveUpBlock(final Block block) {
 		if (block == null) {
 			// base case
 			return;
@@ -868,24 +773,23 @@ public class VirtualWorldModel {
 		// move up blocks on top of itself first
 		moveUpBlock(getBlockOnTopOf(block));
 		// move up itself
-		Point2D coord = block.getCoord();
+		final Point2D coord = block.getCoord();
 		block.setCoord(coord.getX(), coord.getY() - getBlockHeight());
 	}
 
-	// --- helper
-	boolean isXCloseEnough(double x1, double x2) {
+	boolean isXCloseEnough(final double x1, final double x2) {
 		return Math.abs(x1 - x2) <= getXFloatErrorMargin() ? true : false;
 	}
 
-	boolean isYCloseEnough(double y1, double y2) {
+	boolean isYCloseEnough(final double y1, final double y2) {
 		return Math.abs(y1 - y2) <= getYFloatErrorMargin() ? true : false;
 	}
 
-	public double columnToXCoord(int columnNum) {
+	public double columnToXCoord(final int columnNum) {
 		return getLeftMargin() + columnNum * getColumnWidth();
 	}
 
-	int xCoordToClosestColumn(double x) {
+	int xCoordToClosestColumn(final double x) {
 		return (int) Math.round((x - getLeftMargin()) / getColumnWidth());
 	}
 }

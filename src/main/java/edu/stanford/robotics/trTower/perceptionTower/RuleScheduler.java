@@ -3,16 +3,11 @@ package edu.stanford.robotics.trTower.perceptionTower;
 import edu.stanford.robotics.trTower.modelTower.ModelTower;
 
 public interface RuleScheduler {
+	boolean isStable();
 
-    // just use the Iterator interface?
+	Rule getNextRule();
 
-    // --- or
-    boolean isStable();
-    Rule getNextRule();
+	ModelTower getModelTower();
 
-    // --- attributes
-    // code broken...
-    // private modelTower;
-    ModelTower getModelTower();
-    void setModelTower(ModelTower m);
+	void setModelTower(ModelTower m);
 }

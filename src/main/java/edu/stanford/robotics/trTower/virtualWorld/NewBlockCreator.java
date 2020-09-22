@@ -1,119 +1,128 @@
 package edu.stanford.robotics.trTower.virtualWorld;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Paint;
 
 class NewBlockCreator {
-    
-    NewBlockCreator() {
-	reset();
-    }
-    
-    void reset() {
-	currentPaint = Color.blue;
-	currentChar = 'Z';
-    }
+	NewBlockCreator() {
+		reset();
+	}
 
-    Block createNewBlock() {
-	Block b = new Block();
-	b.setId(String.valueOf(getNextChar()));
-	b.setPaint(getNextPaint());
-	b.setLabelPaint(getLabelPaint());
-	b.setBlockWidth(getVirtualWorldModel().getBlockWidth());
-	b.setBlockHeight(getVirtualWorldModel().getBlockHeight());
-	return b;
-    }
-    
-    // --- properties
-    private Paint labelPaint;
-    Paint getLabelPaint() { return labelPaint; }
-    void setLabelPaint(Paint l) { labelPaint = l; }
+	void reset() {
+		this.currentPaint = Color.blue;
+		this.currentChar = 'Z';
+	}
 
+	Block createNewBlock() {
+		final Block b = new Block();
+		b.setId(String.valueOf(getNextChar()));
+		b.setPaint(getNextPaint());
+		b.setLabelPaint(getLabelPaint());
+		b.setBlockWidth(getVirtualWorldModel().getBlockWidth());
+		b.setBlockHeight(getVirtualWorldModel().getBlockHeight());
+		return b;
+	}
 
-    // --- components
-    VirtualWorldModel virtualWorldModel;
-    VirtualWorldModel getVirtualWorldModel() { return virtualWorldModel; }
-    void setVirtualWorldModel(VirtualWorldModel m) { virtualWorldModel = m; }
+	private Paint labelPaint;
 
-    private Paint currentPaint;
-    private char currentChar;
-    
-    private char getNextChar() {
-	if (currentChar == 'Z')
-	    currentChar = 'A';
-	else if (currentChar == 'A')
-	    currentChar = 'B';
-	else if (currentChar == 'B')
-	    currentChar = 'C';
-	else if (currentChar == 'C')
-	    currentChar = 'D';
-	else if (currentChar == 'D')
-	    currentChar = 'E';
-	else if (currentChar == 'E')
-	    currentChar = 'F';
-	else if (currentChar == 'F')
-	    currentChar = 'G';
-	else if (currentChar == 'G')
-	    currentChar = 'H';
-	else if (currentChar == 'H')
-	    currentChar = 'I';
-	else if (currentChar == 'I')
-	    currentChar = 'J';
-	else if (currentChar == 'J')
-	    currentChar = 'K';
-	else if (currentChar == 'K')
-	    currentChar = 'L';
-	else if (currentChar == 'L')
-	    currentChar = 'M';
-	else if (currentChar == 'M')
-	    currentChar = 'N';
-	else if (currentChar == 'N')
-	    currentChar = 'O';
-	else if (currentChar == 'O')
-	    currentChar = 'P';
-	else if (currentChar == 'P')
-	    currentChar = 'Q';
-	else if (currentChar == 'Q')
-	    currentChar = 'R';
-	else if (currentChar == 'R')
-	    currentChar = 'S';
-	else if (currentChar == 'S')
-	    currentChar = 'T';
-	else if (currentChar == 'T')
-	    currentChar = 'U';
-	else if (currentChar == 'U')
-	    currentChar = 'V';
-	else if (currentChar == 'V')
-	    currentChar = 'W';
-	else if (currentChar == 'W')
-	    currentChar = 'X';
-	else if (currentChar == 'X')
-	    currentChar = 'Y';
-	else
-	    currentChar = '*';
-	return currentChar;
-    }
-		
+	Paint getLabelPaint() {
+		return this.labelPaint;
+	}
 
-    Color c1 = new Color(255, 64, 64);
+	void setLabelPaint(final Paint l) {
+		this.labelPaint = l;
+	}
 
-    private Paint getNextPaint() {
-	if (currentPaint.equals(Color.blue)) 
-	    currentPaint = c1;
-	else if (currentPaint.equals(c1))
-	    currentPaint = Color.cyan;
-	else if (currentPaint.equals(Color.cyan))
-	    currentPaint = Color.green;
-	else if (currentPaint.equals(Color.green))
-	    currentPaint = Color.magenta;
-	else if (currentPaint.equals(Color.magenta))
-	    currentPaint = Color.orange;
-	else if (currentPaint.equals(Color.orange))
-	    currentPaint = Color.pink;
-	else if (currentPaint.equals(Color.pink))
-	    currentPaint = Color.yellow;
-	else
-	    currentPaint = Color.blue;
-	return currentPaint;
-    }
+	VirtualWorldModel virtualWorldModel;
+
+	VirtualWorldModel getVirtualWorldModel() {
+		return this.virtualWorldModel;
+	}
+
+	void setVirtualWorldModel(final VirtualWorldModel m) {
+		this.virtualWorldModel = m;
+	}
+
+	private Paint currentPaint;
+	private char currentChar;
+
+	private char getNextChar() {
+		if (this.currentChar == 'Z') {
+			this.currentChar = 'A';
+		} else if (this.currentChar == 'A') {
+			this.currentChar = 'B';
+		} else if (this.currentChar == 'B') {
+			this.currentChar = 'C';
+		} else if (this.currentChar == 'C') {
+			this.currentChar = 'D';
+		} else if (this.currentChar == 'D') {
+			this.currentChar = 'E';
+		} else if (this.currentChar == 'E') {
+			this.currentChar = 'F';
+		} else if (this.currentChar == 'F') {
+			this.currentChar = 'G';
+		} else if (this.currentChar == 'G') {
+			this.currentChar = 'H';
+		} else if (this.currentChar == 'H') {
+			this.currentChar = 'I';
+		} else if (this.currentChar == 'I') {
+			this.currentChar = 'J';
+		} else if (this.currentChar == 'J') {
+			this.currentChar = 'K';
+		} else if (this.currentChar == 'K') {
+			this.currentChar = 'L';
+		} else if (this.currentChar == 'L') {
+			this.currentChar = 'M';
+		} else if (this.currentChar == 'M') {
+			this.currentChar = 'N';
+		} else if (this.currentChar == 'N') {
+			this.currentChar = 'O';
+		} else if (this.currentChar == 'O') {
+			this.currentChar = 'P';
+		} else if (this.currentChar == 'P') {
+			this.currentChar = 'Q';
+		} else if (this.currentChar == 'Q') {
+			this.currentChar = 'R';
+		} else if (this.currentChar == 'R') {
+			this.currentChar = 'S';
+		} else if (this.currentChar == 'S') {
+			this.currentChar = 'T';
+		} else if (this.currentChar == 'T') {
+			this.currentChar = 'U';
+		} else if (this.currentChar == 'U') {
+			this.currentChar = 'V';
+		} else if (this.currentChar == 'V') {
+			this.currentChar = 'W';
+		} else if (this.currentChar == 'W') {
+			this.currentChar = 'X';
+		} else if (this.currentChar == 'X') {
+			this.currentChar = 'Y';
+		} else {
+			this.currentChar = '*';
+		}
+		return this.currentChar;
+	}
+
+	Color c1 = new Color(255, 64, 64);
+
+	private Paint getNextPaint() {
+		if (this.currentPaint.equals(Color.blue)) {
+			this.currentPaint = this.c1;
+		} else if (this.currentPaint.equals(this.c1)) {
+			this.currentPaint = Color.cyan;
+		} else if (this.currentPaint.equals(Color.cyan)) {
+			this.currentPaint = Color.green;
+		} else if (this.currentPaint.equals(Color.green)) {
+			this.currentPaint = Color.magenta;
+		} else if (this.currentPaint.equals(Color.magenta)) {
+			this.currentPaint = Color.orange;
+		} else if (this.currentPaint.equals(Color.orange)) {
+			this.currentPaint = Color.pink;
+		} else if (this.currentPaint.equals(Color.pink)) {
+			this.currentPaint = Color.yellow;
+		} else {
+			this.currentPaint = Color.blue;
+		}
+		return this.currentPaint;
+	}
 }
-
