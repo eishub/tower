@@ -4,20 +4,18 @@ import edu.stanford.robotics.trTower.virtualWorld.Block;
 import edu.stanford.robotics.trTower.virtualWorld.DurativeArmAction;
 
 public class PickupAction extends DurativeArmAction {
-
-	// --- properties
 	private String targetBlockId;
 
 	String getTargetBlockId() {
-		return targetBlockId;
+		return this.targetBlockId;
 	}
 
-	public void setTargetBlockId(String id) {
-		targetBlockId = id;
+	public void setTargetBlockId(final String id) {
+		this.targetBlockId = id;
 	}
 
+	@Override
 	public void actionStep() {
-
 		if (!getVirtualWorldModel().isAvailable()) {
 			setStatusMessage("External perturbation.");
 			return;
@@ -28,59 +26,40 @@ public class PickupAction extends DurativeArmAction {
 		if (getTargetBlockId() == null) {
 			System.out.println("PickupAction> getTargetBlockId() is null");
 			return;
-			// System.exit(-1);
 		}
 
 		if (getHostRobotArm().getBlockHeld() != null) {
-			if (getHostRobotArm().getBlockHeld().getId().equals(
-					getTargetBlockId())) {
+			if (getHostRobotArm().getBlockHeld().getId().equals(getTargetBlockId())) {
 				// holding block already, do nothing, return
 				return;
 			} else {
 				// holding some other block, cannot perform the pickup action
-				// System.out.println("PickupAction> Already holding "
-				// + getHostRobotArm().getBlockHeld().getId()
-				// + ". Cannot pick up "
-				// + getTargetBlockId() + ".");
-				setStatusMessage("Already holding "
-						+ getHostRobotArm().getBlockHeld().getId()
-						+ ". Cannot pick up " + getTargetBlockId() + ".");
-				// simply do nothing, and return
+				setStatusMessage("Already holding " + getHostRobotArm().getBlockHeld().getId() + ". Cannot pick up "
+						+ getTargetBlockId() + ".");
 				return;
 			}
 		} else {
 			// not holding any block
 
 			// get target block
-			Block targetBlock = (Block) (getVirtualWorldModel()
-					.findVirtualObject(getTargetBlockId()));
+			final Block targetBlock = (Block) (getVirtualWorldModel().findVirtualObject(getTargetBlockId()));
 			if (targetBlock == null) {
-				// System.out.println("PickupAction> Target Block does not exist.");
 				setStatusMessage("Pickup target block does not exist.");
 				// do nothing, return
 				return;
 			}
 			if (!getVirtualWorldModel().isBlockClear(targetBlock)) {
-				// target not clear, do nothing, return
-				// System.out.println("PickupAction> Target block "
-				// + getTargetBlockId()
-				// + " not clear.");
-				setStatusMessage("Pickup target block " + getTargetBlockId()
-						+ " not clear.");
+				setStatusMessage("Pickup target block " + getTargetBlockId() + " not clear.");
 				return;
 			} else {
 				// set target coord
-				setTargetCoord(targetBlock.getCoord().getX(), targetBlock
-						.getCoord().getY()
-						- getBlockHeight());
+				setTargetCoord(targetBlock.getCoord().getX(), targetBlock.getCoord().getY() - getBlockHeight());
 			}
 
 			// motion
-			if (isTargetCoordMatched()
-					&& getHostRobotArm().isClawCompletelyClosed()) {
+			if (isTargetCoordMatched() && getHostRobotArm().isClawCompletelyClosed()) {
 				// x and y matched
 				targetBlock.setBeingHeld(true);
-				// targetBlock.setHoldingRobotArm(getHostRobotArm());
 				getHostRobotArm().setBlockHeld(targetBlock);
 				// pick "up" block a little bit
 				// [fix this] how to add this?
@@ -98,5 +77,4 @@ public class PickupAction extends DurativeArmAction {
 			getVirtualWorldModel().setChanged(true);
 		}
 	}
-
 }

@@ -1,56 +1,37 @@
 package edu.stanford.robotics.trTower.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import edu.stanford.robotics.trTower.*;
+import javax.swing.JOptionPane;
+
+import edu.stanford.robotics.trTower.TRTower;
 
 public class HelpBrowserFactory {
+	@SuppressWarnings("deprecation")
+	public void showHelp(final boolean isInAnApplet, final boolean useBuiltInHelpBrowser, final String title,
+			final String location) {
 
-    public void showHelp(boolean isInAnApplet,
-			 boolean useBuiltInHelpBrowser,
-			 String title,
-			 String location) {
+		try {
+			URL helpURL;
+			if (isInAnApplet) {
+				final URL codeBase = TRTower.getInstance().getCodeBase();
+				helpURL = new URL(codeBase, location);
+			} else {
+				helpURL = new URL("file:" + location);
+			}
 
-	try {
-	    // --- build URL
-	    URL helpURL;
-	    if (isInAnApplet) {
-		// applet
-		URL codeBase = TRTower.getInstance().getCodeBase();
-		//		System.out.println("codeBase = " + codeBase.toString());
-		helpURL = new URL(codeBase, location);
-	    } else {
-		// application
-		helpURL = new URL("file:" + location);
-	    }
+			if (isInAnApplet && !useBuiltInHelpBrowser) {
+				TRTower.getInstance().getAppletContext().showDocument(helpURL, title);
+			} else {
+				final HelpBrowserDialog helpBrowserDialog = new HelpBrowserDialog();
+				helpBrowserDialog.setPage(helpURL);
+				helpBrowserDialog.setTitle(title);
+			}
 
-	    // --- display URL
-	    if (isInAnApplet && !useBuiltInHelpBrowser) {
-		// Applet, and don't want to use builtin browser,
-		// so use web browser
-//  		TRTower.getInstance().showStatus("Opening: " +
-//  						 helpURL.toString());
-		TRTower.getInstance().getAppletContext().showDocument(helpURL,
-								      title);
-	    } else {
-		// either it's an application, or specifically requires so,
-		// use the built in help browser
-		HelpBrowserDialog helpBrowserDialog = new HelpBrowserDialog();
-		helpBrowserDialog.setPage(helpURL);
-		helpBrowserDialog.setTitle(title);
-	    }
-	    
-	} catch (MalformedURLException e) {
-
-	    JOptionPane.showMessageDialog(TRTower.getInstance(),
-					  "MalformedURLException: " + 
-  					  "Cannot find " + location,
-					  "Error",
-					  JOptionPane.ERROR_MESSAGE);
+		} catch (final MalformedURLException e) {
+			JOptionPane.showMessageDialog(TRTower.getInstance(), "MalformedURLException: " + "Cannot find " + location,
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
-    }
-    
 }

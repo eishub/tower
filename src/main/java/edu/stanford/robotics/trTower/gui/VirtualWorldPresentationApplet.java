@@ -1,44 +1,62 @@
 package edu.stanford.robotics.trTower.gui;
 
-import java.awt.*;
-//import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
 
-import edu.stanford.robotics.trTower.*;
-import edu.stanford.robotics.trTower.virtualWorld.*;
-//import edu.stanford.robotics.trTower.common.*;
+import edu.stanford.robotics.trTower.Stimulator;
+import edu.stanford.robotics.trTower.virtualWorld.VirtualWorld;
 
 public class VirtualWorldPresentationApplet extends AnimatorApplet {
+	private static final long serialVersionUID = 1L;
+	private static int preferredWidth = 270;
+	private static int preferredHeight = 225;
+	private static Dimension preferredDimension = new Dimension(preferredWidth, preferredHeight);
 
-    private static int preferredWidth = 270;
-    private static int preferredHeight = 225;
-    private static Dimension preferredDimension = 
-	new Dimension(preferredWidth, preferredHeight);
-    
-    // --- attributes
-    private VirtualWorld virtualWorld;
-    public VirtualWorld getVirtualWorld() { return virtualWorld; }
-    public void setVirtualWorld(VirtualWorld vw) { 
-	virtualWorld = vw;
-	virtualWorld.setVirtualWorldWidth(preferredWidth);
-	virtualWorld.setVirtualWorldHeight(preferredHeight);
-    }
-    private Stimulator stimulator;
-    public Stimulator getStimulator() { return stimulator; }
-    public void setStimulator(Stimulator s) { stimulator = s; }
-    // --- public methods
+	private VirtualWorld virtualWorld;
 
-    // cannot be resized
-    public Dimension getPreferredSize() { return preferredDimension; }
-    public Dimension getMaximumSize() { return getPreferredSize(); }
-    public Dimension getMinimumSize() { return getPreferredSize(); }
+	public VirtualWorld getVirtualWorld() {
+		return this.virtualWorld;
+	}
 
-    // [fix this] check for getVirtualWorld() != null?
-    public void paint(Graphics g) {
-	getVirtualWorld().render(g);
-    }
-    protected void animStep() {
-	//	getVirtualWorld().animStep();
-	getStimulator().step();
-    }
+	public void setVirtualWorld(final VirtualWorld vw) {
+		this.virtualWorld = vw;
+		this.virtualWorld.setVirtualWorldWidth(preferredWidth);
+		this.virtualWorld.setVirtualWorldHeight(preferredHeight);
+	}
+
+	private Stimulator stimulator;
+
+	public Stimulator getStimulator() {
+		return this.stimulator;
+	}
+
+	public void setStimulator(final Stimulator s) {
+		this.stimulator = s;
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		return preferredDimension;
+	}
+
+	@Override
+	public Dimension getMaximumSize() {
+		return getPreferredSize();
+	}
+
+	@Override
+	public Dimension getMinimumSize() {
+		return getPreferredSize();
+	}
+
+	@Override
+	public void paint(final Graphics g) {
+		// [fix this] check for getVirtualWorld() != null?
+		getVirtualWorld().render(g);
+	}
+
+	@Override
+	protected void animStep() {
+		getStimulator().step();
+	}
 }

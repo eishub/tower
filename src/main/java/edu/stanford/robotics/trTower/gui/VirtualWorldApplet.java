@@ -1,87 +1,62 @@
 package edu.stanford.robotics.trTower.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
-import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
 
-import edu.stanford.robotics.trTower.virtualWorld.*;
-import edu.stanford.robotics.trTower.common.*;
+import edu.stanford.robotics.trTower.virtualWorld.VirtualWorld;
 
+public class VirtualWorldApplet extends AnimatorApplet {
+	private static final long serialVersionUID = 1L;
 
-public class VirtualWorldApplet 
-    extends AnimatorApplet {
+	public VirtualWorldApplet() {
 
-    public VirtualWorldApplet() {
-//    	addComponentListener(getComponentHandler());
+		getVirtualWorld().setVirtualWorldWidth(preferredWidth);
+		getVirtualWorld().setVirtualWorldHeight(preferredHeight);
 
-	// --- init children
-	getVirtualWorld().setVirtualWorldWidth(preferredWidth);
-	getVirtualWorld().setVirtualWorldHeight(preferredHeight);
-
-	// add in some blocks
-	for (int i=0; i<2; i++)
-	    getVirtualWorld().addNewBlock();
-    }
-    
-//      public void initialize() {
-//  	getVirtualWorld().initialize();
-//  	getVirtualWorld().setVirtualWorldWidth(getSize().getWidth());
-//  	getVirtualWorld().setVirtualWorldHeight(getSize().getHeight());
-	// add in blocks
-//  	for (int i=0; i<4; i++)
-//  	    getVirtualWorld().addNewBlock();
-//      }
-
-//      class ComponentHandler extends ComponentAdapter {
-//  	void ComponentResized(ComponentEvent e) {
-//  	    getVirtualWorld().setVirtualWorldWidth(getSize().getWidth());
-//  	    getVirtualWorld().setVirtualWorldHeight(getSize().getHeight());
-//  	}
-//      }
-    // properties
-    private VirtualWorld virtualWorld;
-    protected VirtualWorld getVirtualWorld() {
-	if (virtualWorld == null) {
-	    virtualWorld = new VirtualWorld();
-//  	    System.out.println("VirtualWorldApplet> Width = " 
-//  			       + getSize().getWidth());
-//  	    System.out.println("VirtualWorldApplet> Height = " 
-//  			       + getSize().getHeight());
+		// add in some blocks
+		for (int i = 0; i < 2; i++) {
+			getVirtualWorld().addNewBlock();
+		}
 	}
-	return virtualWorld;
-    }
-    // promote
-    public VirtualWorld getTheVirtualWorld() {
-	return getVirtualWorld();
-    }
 
-//      // --- components
-//      private ComponentHandler componentHandler;
-//      protected ComponentHandler getComponentHandler() {
-//  	if (componentHandler == null) {
-//  	    componentHandler = new ComponentHandler();
-//  	}
-//  	return componentHandler;
-//      }
+	private VirtualWorld virtualWorld;
 
-    // overridden methods
-    private static int preferredWidth = 330;
-    private static int preferredHeight = 260;
-    private static Dimension preferredDimension = new Dimension(preferredWidth, preferredHeight);
-    public Dimension getPreferredSize() { return preferredDimension; }
-    public Dimension getMaximumSize() { return getPreferredSize(); }
-    public Dimension getMinimumSize() { return getPreferredSize(); }
-    
+	protected VirtualWorld getVirtualWorld() {
+		if (this.virtualWorld == null) {
+			this.virtualWorld = new VirtualWorld();
+		}
+		return this.virtualWorld;
+	}
 
-    // methods
-    public void paint(Graphics g) {
-	getVirtualWorld().render(g);
-    }
+	public VirtualWorld getTheVirtualWorld() {
+		return getVirtualWorld();
+	}
 
+	private static int preferredWidth = 330;
+	private static int preferredHeight = 260;
+	private static Dimension preferredDimension = new Dimension(preferredWidth, preferredHeight);
 
-    protected void animStep() {
-    	// code broken...
-    	//	virtualWorld.animStep();
-    }
+	@Override
+	public Dimension getPreferredSize() {
+		return preferredDimension;
+	}
+
+	@Override
+	public Dimension getMaximumSize() {
+		return getPreferredSize();
+	}
+
+	@Override
+	public Dimension getMinimumSize() {
+		return getPreferredSize();
+	}
+
+	@Override
+	public void paint(final Graphics g) {
+		getVirtualWorld().render(g);
+	}
+
+	@Override
+	protected void animStep() {
+	}
 }

@@ -30,80 +30,67 @@ import edu.stanford.robotics.trTower.modelTower.ModelTower;
 import edu.stanford.robotics.trTower.virtualWorld.VirtualWorld;
 
 public class AnimationControlPanel extends JPanel implements StimulatorListener {
+	private static final long serialVersionUID = 1L;
 
 	protected static final int hs = 10;
 	protected static final int vs = 10;
 
 	public AnimationControlPanel() {
 		setLayout(new BorderLayout());
-		// add(getControlBox());
 		add(getControlPanel());
 	}
-
-	// --- attributes
-	// private AnimatorApplet animatorApplet;
-	// public AnimatorApplet getAnimatorApplet() { return animatorApplet; }
-	// public void setAnimatorApplet(AnimatorApplet a) {
-	// animatorApplet = a;
-	// getSpeedSlider().setValue(delayToSliderValue(a.getThreadSleepInterval()));
-	// // getSpeedSlider().asetValue(80);
-
-	// // init children
-	// resetButtonStates();
-	// }
 
 	private AnimationTimer animationTimer;
 
 	public AnimationTimer getAnimationTimer() {
-		return animationTimer;
+		return this.animationTimer;
 	}
 
-	public void setAnimationTimer(AnimationTimer at) {
-		animationTimer = at;
-		// getSpeedSlider().setValue(delayToSliderValue(animationTimer.getDelay()));
-		animationTimer.setDelay(getSpeedSlider().getValue());
+	public void setAnimationTimer(final AnimationTimer at) {
+		this.animationTimer = at;
+		this.animationTimer.setDelay(getSpeedSlider().getValue());
 	}
 
 	private VirtualWorld virtualWorld;
 
 	public VirtualWorld getVirtualWorld() {
-		return virtualWorld;
+		return this.virtualWorld;
 	}
 
-	public void setVirtualWorld(VirtualWorld vw) {
-		virtualWorld = vw;
+	public void setVirtualWorld(final VirtualWorld vw) {
+		this.virtualWorld = vw;
 		resetButtonStates();
 	}
 
 	private ModelTower modelTower;
 
 	public ModelTower getModelTower() {
-		return modelTower;
+		return this.modelTower;
 	}
 
-	public void setModelTower(ModelTower mt) {
-		modelTower = mt;
+	public void setModelTower(final ModelTower mt) {
+		this.modelTower = mt;
 	}
 
 	private boolean toStep = false;
 
 	public boolean isToStep() {
-		return toStep;
+		return this.toStep;
 	}
 
-	public void setToStep(boolean s) {
-		toStep = s;
+	public void setToStep(final boolean s) {
+		this.toStep = s;
 	}
-
-	// --- GUI actions
 
 	class PlayGuiAction extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
 		PlayGuiAction() {
 			super("Play", getPlayIcon());
 		}
 
-		public void actionPerformed(ActionEvent ae) {
-			// getAnimatorApplet().start();
+		@Override
+		public void actionPerformed(final ActionEvent ae) {
 			if (getVirtualWorld() != null) {
 				getVirtualWorld().setDurativeActionRunning(true);
 				setToStep(false);
@@ -115,20 +102,22 @@ public class AnimationControlPanel extends JPanel implements StimulatorListener 
 	private PlayGuiAction playGuiAction;
 
 	protected PlayGuiAction getPlayGuiAction() {
-		if (playGuiAction == null) {
-			playGuiAction = new PlayGuiAction();
-			playGuiAction.setEnabled(false);
+		if (this.playGuiAction == null) {
+			this.playGuiAction = new PlayGuiAction();
+			this.playGuiAction.setEnabled(false);
 		}
-		return playGuiAction;
+		return this.playGuiAction;
 	}
 
 	class PauseGuiAction extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
 		PauseGuiAction() {
 			super("Pause", getPauseIcon());
 		}
 
-		public void actionPerformed(ActionEvent ae) {
-			// getAnimatorApplet().stop();
+		@Override
+		public void actionPerformed(final ActionEvent ae) {
 			if (getVirtualWorld() != null) {
 				getVirtualWorld().setDurativeActionRunning(false);
 				setToStep(false);
@@ -140,19 +129,22 @@ public class AnimationControlPanel extends JPanel implements StimulatorListener 
 	private PauseGuiAction pauseGuiAction;
 
 	protected PauseGuiAction getPauseGuiAction() {
-		if (pauseGuiAction == null) {
-			pauseGuiAction = new PauseGuiAction();
-			pauseGuiAction.setEnabled(false);
+		if (this.pauseGuiAction == null) {
+			this.pauseGuiAction = new PauseGuiAction();
+			this.pauseGuiAction.setEnabled(false);
 		}
-		return pauseGuiAction;
+		return this.pauseGuiAction;
 	}
 
 	class StepGuiAction extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
 		StepGuiAction() {
 			super("Step", getStepIcon());
 		}
 
-		public void actionPerformed(ActionEvent ae) {
+		@Override
+		public void actionPerformed(final ActionEvent ae) {
 			getVirtualWorld().setDurativeActionRunning(true);
 			setToStep(true);
 			resetButtonStates();
@@ -162,23 +154,12 @@ public class AnimationControlPanel extends JPanel implements StimulatorListener 
 	private StepGuiAction stepGuiAction;
 
 	protected StepGuiAction getStepGuiAction() {
-		if (stepGuiAction == null) {
-			stepGuiAction = new StepGuiAction();
-			stepGuiAction.setEnabled(false);
+		if (this.stepGuiAction == null) {
+			this.stepGuiAction = new StepGuiAction();
+			this.stepGuiAction.setEnabled(false);
 		}
-		return stepGuiAction;
+		return this.stepGuiAction;
 	}
-
-	// --- helpers
-	// protected void resetButtonStates() {
-	// if (getAnimatorApplet().isRunning()) {
-	// getPlayGuiAction().setEnabled(false);
-	// getPauseGuiAction().setEnabled(true);
-	// } else {
-	// getPlayGuiAction().setEnabled(true);
-	// getPauseGuiAction().setEnabled(false);
-	// }
-	// }
 
 	protected void resetButtonStates() {
 		if (getVirtualWorld() == null) {
@@ -190,28 +171,26 @@ public class AnimationControlPanel extends JPanel implements StimulatorListener 
 				getPlayGuiAction().setEnabled(true);
 				getPauseGuiAction().setEnabled(true);
 				getStepGuiAction().setEnabled(false);
-				getAnimationStatusLabel()
-						.setMode(AnimationStatusLabel.STEPPING);
+				getAnimationStatusLabel().setMode(AnimationStatusLabel.STEPPING);
 			} else {
 				if (getVirtualWorld().isDurativeActionRunning()) {
 					// playing
 					getPlayGuiAction().setEnabled(false);
 					getPauseGuiAction().setEnabled(true);
 					getStepGuiAction().setEnabled(true);
-					getAnimationStatusLabel().setMode(
-							AnimationStatusLabel.PLAYING);
+					getAnimationStatusLabel().setMode(AnimationStatusLabel.PLAYING);
 				} else {
 					// paused
 					getPlayGuiAction().setEnabled(true);
 					getPauseGuiAction().setEnabled(false);
 					getStepGuiAction().setEnabled(true);
-					getAnimationStatusLabel().setMode(
-							AnimationStatusLabel.PAUSED);
+					getAnimationStatusLabel().setMode(AnimationStatusLabel.PAUSED);
 				}
 			}
 		}
 	}
 
+	@Override
 	public void stimuStep() {
 		if (isToStep()) {
 			if (getModelTower().isChanged()) {
@@ -220,126 +199,109 @@ public class AnimationControlPanel extends JPanel implements StimulatorListener 
 		}
 	}
 
-	// --- components
 	private JPanel controlPanel;
 
 	protected JPanel getControlPanel() {
-		if (controlPanel == null) {
-			controlPanel = new JPanel();
-			controlPanel.setLayout(new GridBagLayout());
-			GridBagConstraints play = new GridBagConstraints();
+		if (this.controlPanel == null) {
+			this.controlPanel = new JPanel();
+			this.controlPanel.setLayout(new GridBagLayout());
+			final GridBagConstraints play = new GridBagConstraints();
 			play.gridx = 0;
 			play.gridy = 0;
 			play.insets = new Insets(0, 8, 0, 2);
-			controlPanel.add(getPlayButton(), play);
-			GridBagConstraints pause = new GridBagConstraints();
+			this.controlPanel.add(getPlayButton(), play);
+			final GridBagConstraints pause = new GridBagConstraints();
 			pause.gridx = 1;
 			pause.gridy = 0;
 			pause.insets = new Insets(0, 2, 0, 2);
-			controlPanel.add(getPauseButton(), pause);
-			GridBagConstraints step = new GridBagConstraints();
+			this.controlPanel.add(getPauseButton(), pause);
+			final GridBagConstraints step = new GridBagConstraints();
 			step.gridx = 2;
 			step.gridy = 0;
 			step.insets = new Insets(0, 2, 0, 2);
-			controlPanel.add(getStepButton(), step);
-			GridBagConstraints status = new GridBagConstraints();
+			this.controlPanel.add(getStepButton(), step);
+			final GridBagConstraints status = new GridBagConstraints();
 			status.gridx = 3;
 			status.gridy = 0;
 			status.fill = GridBagConstraints.HORIZONTAL;
 			status.weightx = 0.5;
 			status.weighty = 1;
-			controlPanel.add(getAnimationStatusLabel(), status);
-			GridBagConstraints speed = new GridBagConstraints();
+			this.controlPanel.add(getAnimationStatusLabel(), status);
+			final GridBagConstraints speed = new GridBagConstraints();
 			speed.gridx = 4;
 			speed.gridy = 0;
 			speed.weightx = 0.5;
 			speed.fill = GridBagConstraints.HORIZONTAL;
-			controlPanel.add(getSpeedSlider(), speed);
+			this.controlPanel.add(getSpeedSlider(), speed);
 		}
-		return controlPanel;
+		return this.controlPanel;
 	}
-
-	// private Box controlBox;
-	// protected Box getControlBox() {
-	// if (controlBox == null) {
-	// controlBox = Box.createHorizontalBox();
-	// controlBox.add(Box.createRigidArea(new Dimension(hs, 0)));
-	// controlBox.add(getPlayButton());
-	// controlBox.add(Box.createRigidArea(new Dimension(hs, 0)));
-	// controlBox.add(getPauseButton());
-	// controlBox.add(Box.createHorizontalGlue());
-	// controlBox.add(getSpeedSlider());
-	// controlBox.add(Box.createRigidArea(new Dimension(hs, 0)));
-	// }
-	// return controlBox;
-	// }
 
 	private JButton playButton;
 
 	protected JButton getPlayButton() {
-		if (playButton == null) {
-			playButton = new JButton();
-			playButton.setAction(getPlayGuiAction());
-			playButton.setText(null);
-			playButton.setDisabledIcon(getDisabledPlayIcon());
-			playButton.setMargin(new Insets(4, 16, 4, 16));
-			playButton.setToolTipText("Play");
+		if (this.playButton == null) {
+			this.playButton = new JButton();
+			this.playButton.setAction(getPlayGuiAction());
+			this.playButton.setText(null);
+			this.playButton.setDisabledIcon(getDisabledPlayIcon());
+			this.playButton.setMargin(new Insets(4, 16, 4, 16));
+			this.playButton.setToolTipText("Play");
 		}
-		return playButton;
+		return this.playButton;
 	}
 
 	private JButton pauseButton;
 
 	protected JButton getPauseButton() {
-		if (pauseButton == null) {
-			pauseButton = new JButton();
-			pauseButton.setAction(getPauseGuiAction());
-			pauseButton.setText(null);
-			pauseButton.setDisabledIcon(getDisabledPauseIcon());
-			pauseButton.setMargin(new Insets(4, 8, 4, 8));
-			pauseButton.setToolTipText("Pause");
+		if (this.pauseButton == null) {
+			this.pauseButton = new JButton();
+			this.pauseButton.setAction(getPauseGuiAction());
+			this.pauseButton.setText(null);
+			this.pauseButton.setDisabledIcon(getDisabledPauseIcon());
+			this.pauseButton.setMargin(new Insets(4, 8, 4, 8));
+			this.pauseButton.setToolTipText("Pause");
 		}
-		return pauseButton;
+		return this.pauseButton;
 	}
 
 	private JButton stepButton;
 
 	protected JButton getStepButton() {
-		if (stepButton == null) {
-			stepButton = new JButton();
-			stepButton.setAction(getStepGuiAction());
-			stepButton.setText(null);
-			stepButton.setDisabledIcon(getDisabledStepIcon());
-			stepButton.setMargin(new Insets(4, 8, 4, 8));
-			stepButton
-					.setToolTipText("Step (run until a primitive predicate changes)");
+		if (this.stepButton == null) {
+			this.stepButton = new JButton();
+			this.stepButton.setAction(getStepGuiAction());
+			this.stepButton.setText(null);
+			this.stepButton.setDisabledIcon(getDisabledStepIcon());
+			this.stepButton.setMargin(new Insets(4, 8, 4, 8));
+			this.stepButton.setToolTipText("Step (run until a primitive predicate changes)");
 		}
-		return stepButton;
+		return this.stepButton;
 	}
 
 	private JSlider speedSlider;
 
 	protected JSlider getSpeedSlider() {
-		if (speedSlider == null) {
-			// speedSlider = new JSlider(minSliderValue, maxSliderValue);
-			speedSlider = new JSlider(1, 12, 6);
-			speedSlider.setPreferredSize(new Dimension(50, 30));
-			speedSlider.setMinimumSize(new Dimension(50, 30));
-			speedSlider.setMajorTickSpacing(6);
-			speedSlider.setMinorTickSpacing(1);
-			speedSlider.setPaintTicks(true);
-			speedSlider.setSnapToTicks(true);
-			speedSlider.addChangeListener(getSpeedSliderListener());
-			speedSlider.setToolTipText("Adjust speed of animation");
+		if (this.speedSlider == null) {
+			this.speedSlider = new JSlider(1, 12, 6);
+			this.speedSlider.setPreferredSize(new Dimension(50, 30));
+			this.speedSlider.setMinimumSize(new Dimension(50, 30));
+			this.speedSlider.setMajorTickSpacing(6);
+			this.speedSlider.setMinorTickSpacing(1);
+			this.speedSlider.setPaintTicks(true);
+			this.speedSlider.setSnapToTicks(true);
+			this.speedSlider.addChangeListener(getSpeedSliderListener());
+			this.speedSlider.setToolTipText("Adjust speed of animation");
 		}
-		return speedSlider;
+		return this.speedSlider;
 	}
 
 	class SpeedSliderListener implements ChangeListener {
-		public void stateChanged(ChangeEvent e) {
-			JSlider source = (JSlider) e.getSource();
+		@Override
+		public void stateChanged(final ChangeEvent e) {
+			final JSlider source = (JSlider) e.getSource();
 			if (!source.getValueIsAdjusting()) {
-				int sliderValue = source.getValue();
+				final int sliderValue = source.getValue();
 				getAnimationTimer().setDelay(sliderValueToDelay(sliderValue));
 			}
 		}
@@ -348,22 +310,17 @@ public class AnimationControlPanel extends JPanel implements StimulatorListener 
 	private SpeedSliderListener speedSliderListener;
 
 	protected SpeedSliderListener getSpeedSliderListener() {
-		if (speedSliderListener == null) {
-			speedSliderListener = new SpeedSliderListener();
+		if (this.speedSliderListener == null) {
+			this.speedSliderListener = new SpeedSliderListener();
 		}
-		return speedSliderListener;
+		return this.speedSliderListener;
 	}
 
-	// --- helper
 	protected static final int minSliderValue = 1;
 	protected static final int sliderRange = 100;
-	protected static final int maxSliderValue = minSliderValue + sliderRange
-			- 1;
+	protected static final int maxSliderValue = minSliderValue + sliderRange - 1;
 
-	// protected long sliderValueToDelay(int sliderValue) {
-	// return Math.round((double)sliderRange/sliderValue) - 1;
-	// }
-	protected int sliderValueToDelay(int sliderValue) {
+	protected int sliderValueToDelay(final int sliderValue) {
 		switch (sliderValue) {
 		case 12:
 			return 0;
@@ -392,191 +349,187 @@ public class AnimationControlPanel extends JPanel implements StimulatorListener 
 		}
 	}
 
-	// protected int delayToSliderValue(long delay) {
-	// return (int)Math.round((double)sliderRange / (delay + 1));
-	// }
-
 	class PlayIcon implements Icon {
-
-		private AffineTransform at = new AffineTransform();
-		private Polygon triangle = new Polygon();
-
+		private final AffineTransform at = new AffineTransform();
+		private final Polygon triangle = new Polygon();
 		protected Paint paint = Color.black;
 
 		public PlayIcon() {
-			triangle.addPoint(0, 0);
-			triangle.addPoint(0, getIconHeight());
-			triangle.addPoint(getIconWidth(), Math.round(getIconHeight() / 2));
+			this.triangle.addPoint(0, 0);
+			this.triangle.addPoint(0, getIconHeight());
+			this.triangle.addPoint(getIconWidth(), Math.round(getIconHeight() / 2));
 		}
 
+		@Override
 		public int getIconWidth() {
 			return 16;
 		}
 
+		@Override
 		public int getIconHeight() {
 			return 16;
 		}
 
-		public void paintIcon(Component c, Graphics g, int x, int y) {
-			Graphics2D g2 = (Graphics2D) g;
-			g2.setPaint(paint);
-			at.setToTranslation(x, y);
-			Shape shape = at.createTransformedShape(triangle);
+		@Override
+		public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
+			final Graphics2D g2 = (Graphics2D) g;
+			g2.setPaint(this.paint);
+			this.at.setToTranslation(x, y);
+			final Shape shape = this.at.createTransformedShape(this.triangle);
 			g2.fill(shape);
 		}
 	}
 
 	class DisabledPlayIcon extends PlayIcon {
 		public DisabledPlayIcon() {
-			paint = Color.gray;
+			this.paint = Color.gray;
 		}
 	}
 
 	class PauseIcon implements Icon {
-
-		private AffineTransform at = new AffineTransform();
-		private double stepBlockThicknessFactor = 0.375;
+		private final AffineTransform at = new AffineTransform();
+		private final double stepBlockThicknessFactor = 0.375;
 		protected Paint paint = Color.black;
-		private Rectangle2D rectangle;
+		private final Rectangle2D rectangle;
 
 		public PauseIcon() {
-			rectangle = new Rectangle2D.Double(0, 0, getIconWidth()
-					* stepBlockThicknessFactor, getIconHeight());
+			this.rectangle = new Rectangle2D.Double(0, 0, getIconWidth() * this.stepBlockThicknessFactor,
+					getIconHeight());
 		}
 
+		@Override
 		public int getIconWidth() {
 			return 16;
 		}
 
+		@Override
 		public int getIconHeight() {
 			return 16;
 		}
 
-		public void paintIcon(Component c, Graphics g, int x, int y) {
-			Graphics2D g2 = (Graphics2D) g;
-			g2.setPaint(paint);
-			at.setToTranslation(x, y);
-			Shape shape = at.createTransformedShape(rectangle);
+		@Override
+		public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
+			final Graphics2D g2 = (Graphics2D) g;
+			g2.setPaint(this.paint);
+			this.at.setToTranslation(x, y);
+			Shape shape = this.at.createTransformedShape(this.rectangle);
 			g2.fill(shape);
-			at.setToTranslation(
-					getIconWidth() * (1 - stepBlockThicknessFactor), 0);
-			shape = at.createTransformedShape(shape);
+			this.at.setToTranslation(getIconWidth() * (1 - this.stepBlockThicknessFactor), 0);
+			shape = this.at.createTransformedShape(shape);
 			g2.fill(shape);
 		}
 	}
 
 	class DisabledPauseIcon extends PauseIcon {
 		public DisabledPauseIcon() {
-			paint = Color.gray;
+			this.paint = Color.gray;
 		}
 	}
 
 	class StepIcon implements Icon {
-
-		private AffineTransform at = new AffineTransform();
+		private final AffineTransform at = new AffineTransform();
 		protected Paint paint = Color.black;
-		private Polygon triangle = new Polygon();
-		private Rectangle2D rectangle;
-		private double stepLineThicknessFraction = 0.125;
+		private final Polygon triangle = new Polygon();
+		private final Rectangle2D rectangle;
+		private final double stepLineThicknessFraction = 0.125;
 
 		public StepIcon() {
-			triangle.addPoint(0, 0);
-			triangle.addPoint(0, getIconHeight());
-			triangle.addPoint(
-					(int) Math.round(getIconWidth()
-							* (1 - stepLineThicknessFraction)),
+			this.triangle.addPoint(0, 0);
+			this.triangle.addPoint(0, getIconHeight());
+			this.triangle.addPoint((int) Math.round(getIconWidth() * (1 - this.stepLineThicknessFraction)),
 					Math.round(getIconHeight() / 2));
-			rectangle = new Rectangle2D.Double(getIconWidth()
-					* (1 - stepLineThicknessFraction), 0, getIconWidth()
-					* stepLineThicknessFraction, getIconHeight());
+			this.rectangle = new Rectangle2D.Double(getIconWidth() * (1 - this.stepLineThicknessFraction), 0,
+					getIconWidth() * this.stepLineThicknessFraction, getIconHeight());
 		}
 
+		@Override
 		public int getIconWidth() {
 			return 16;
 		}
 
+		@Override
 		public int getIconHeight() {
 			return 16;
 		}
 
-		public void paintIcon(Component c, Graphics g, int x, int y) {
-			Graphics2D g2 = (Graphics2D) g;
-			g2.setPaint(paint);
-			at.setToTranslation(x, y);
-			Shape shape = at.createTransformedShape(triangle);
+		@Override
+		public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
+			final Graphics2D g2 = (Graphics2D) g;
+			g2.setPaint(this.paint);
+			this.at.setToTranslation(x, y);
+			Shape shape = this.at.createTransformedShape(this.triangle);
 			g2.fill(shape);
-			shape = at.createTransformedShape(rectangle);
+			shape = this.at.createTransformedShape(this.rectangle);
 			g2.fill(shape);
 		}
 	}
 
 	class DisabledStepIcon extends StepIcon {
 		public DisabledStepIcon() {
-			paint = Color.gray;
+			this.paint = Color.gray;
 		}
 	}
 
 	private Icon playIcon;
 
 	protected Icon getPlayIcon() {
-		if (playIcon == null) {
-			playIcon = new PlayIcon();
+		if (this.playIcon == null) {
+			this.playIcon = new PlayIcon();
 		}
-		return playIcon;
+		return this.playIcon;
 	}
 
 	private Icon disabledPlayIcon;
 
 	protected Icon getDisabledPlayIcon() {
-		if (disabledPlayIcon == null) {
-			disabledPlayIcon = new DisabledPlayIcon();
+		if (this.disabledPlayIcon == null) {
+			this.disabledPlayIcon = new DisabledPlayIcon();
 		}
-		return disabledPlayIcon;
+		return this.disabledPlayIcon;
 	}
 
 	private Icon pauseIcon;
 
 	protected Icon getPauseIcon() {
-		if (pauseIcon == null) {
-			pauseIcon = new PauseIcon();
+		if (this.pauseIcon == null) {
+			this.pauseIcon = new PauseIcon();
 		}
-		return pauseIcon;
+		return this.pauseIcon;
 	}
 
 	private Icon disabledPauseIcon;
 
 	protected Icon getDisabledPauseIcon() {
-		if (disabledPauseIcon == null) {
-			disabledPauseIcon = new DisabledPauseIcon();
+		if (this.disabledPauseIcon == null) {
+			this.disabledPauseIcon = new DisabledPauseIcon();
 		}
-		return disabledPauseIcon;
+		return this.disabledPauseIcon;
 	}
 
 	private Icon stepIcon;
 
 	protected Icon getStepIcon() {
-		if (stepIcon == null) {
-			stepIcon = new StepIcon();
+		if (this.stepIcon == null) {
+			this.stepIcon = new StepIcon();
 		}
-		return stepIcon;
+		return this.stepIcon;
 	}
 
 	private Icon disabledStepIcon;
 
 	protected Icon getDisabledStepIcon() {
-		if (disabledStepIcon == null) {
-			disabledStepIcon = new DisabledStepIcon();
+		if (this.disabledStepIcon == null) {
+			this.disabledStepIcon = new DisabledStepIcon();
 		}
-		return disabledStepIcon;
+		return this.disabledStepIcon;
 	}
 
 	private AnimationStatusLabel animationStatusLabel;
 
 	protected AnimationStatusLabel getAnimationStatusLabel() {
-		if (animationStatusLabel == null) {
-			animationStatusLabel = new AnimationStatusLabel();
+		if (this.animationStatusLabel == null) {
+			this.animationStatusLabel = new AnimationStatusLabel();
 		}
-		return animationStatusLabel;
+		return this.animationStatusLabel;
 	}
-
 }
