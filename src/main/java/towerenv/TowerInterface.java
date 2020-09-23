@@ -194,6 +194,7 @@ public class TowerInterface extends EIDefaultImpl implements Observer {
 			addList.removeAll(previous);
 			delList.addAll(previous);
 			delList.removeAll(percepts);
+			this.previousPercepts.put(entity, percepts);
 		} catch (final RuntimeException e) {
 			throw new PerceiveException("internal error while getting percepts for entity " + entity, e);
 		}
