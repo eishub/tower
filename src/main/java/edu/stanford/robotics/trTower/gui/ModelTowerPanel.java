@@ -1,300 +1,304 @@
 package edu.stanford.robotics.trTower.gui;
 
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.util.Iterator;
 import java.util.List;
 
-import edu.stanford.robotics.trTower.modelTower.*;
-import edu.stanford.robotics.trTower.common.*;
-import edu.stanford.robotics.trTower.*;
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.SoftBevelBorder;
+
+import edu.stanford.robotics.trTower.StimulatorListener;
+import edu.stanford.robotics.trTower.TRTower;
+import edu.stanford.robotics.trTower.common.ListUtilities;
+import edu.stanford.robotics.trTower.modelTower.ModelTower;
 
 public class ModelTowerPanel extends JPanel implements StimulatorListener {
+	private static final long serialVersionUID = 1L;
 
-    public ModelTowerPanel() {
-	Border empty = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-	Border bevel = new SoftBevelBorder(SoftBevelBorder.LOWERED);
-	setBorder(BorderFactory.createCompoundBorder(bevel, empty));
-	setLayout(new GridBagLayout());
-	GridBagConstraints title = new GridBagConstraints();
-	title.gridx = 0;
-	title.gridy = 0;
-	title.anchor = GridBagConstraints.WEST;
-	//	title.gridwidth = 3;
-	//	title.fill = GridBagConstraints.HORIZONTAL;
-	add(getModelTowerActionLabel(), title);
-	GridBagConstraints clearTitle = new GridBagConstraints();
-	clearTitle.gridx = 0;
-	clearTitle.gridy = 1;
-	//	clearTitle.fill = GridBagConstraints.HORIZONTAL;
-	add(getClearActionLabel(), clearTitle);
-	GridBagConstraints orderedTitle = new GridBagConstraints();
-	orderedTitle.gridx = 1;
-	orderedTitle.gridy = 1;
-	//	orderedTitle.fill = GridBagConstraints.HORIZONTAL;
-	add(getOrderedActionLabel(), orderedTitle);
-	GridBagConstraints towerTitle = new GridBagConstraints();
-	towerTitle.gridx = 2;
-	towerTitle.gridy = 1;
-	//	towerTitle.fill = GridBagConstraints.HORIZONTAL;
-	add(getTowerActionLabel(), towerTitle);
+	public ModelTowerPanel() {
+		final Border empty = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+		final Border bevel = new SoftBevelBorder(BevelBorder.LOWERED);
+		setBorder(BorderFactory.createCompoundBorder(bevel, empty));
+		setLayout(new GridBagLayout());
+		final GridBagConstraints title = new GridBagConstraints();
+		title.gridx = 0;
+		title.gridy = 0;
+		title.anchor = GridBagConstraints.WEST;
+		add(getModelTowerActionLabel(), title);
+		final GridBagConstraints clearTitle = new GridBagConstraints();
+		clearTitle.gridx = 0;
+		clearTitle.gridy = 1;
+		add(getClearActionLabel(), clearTitle);
+		final GridBagConstraints orderedTitle = new GridBagConstraints();
+		orderedTitle.gridx = 1;
+		orderedTitle.gridy = 1;
+		add(getOrderedActionLabel(), orderedTitle);
+		final GridBagConstraints towerTitle = new GridBagConstraints();
+		towerTitle.gridx = 2;
+		towerTitle.gridy = 1;
+		add(getTowerActionLabel(), towerTitle);
 
-	//	Insets insets = new Insets(1, 1, 1, 1);
-	GridBagConstraints clearText = new GridBagConstraints();
-	clearText.gridx = 0;
-	clearText.gridy = 2;
-	clearText.fill = GridBagConstraints.BOTH;
-	clearText.weightx = 0.2;
-	clearText.weighty = 1;
-	clearText.insets = new Insets(0, 0, 0, 2);
-	add(getClearScrollPane(), clearText);
-	GridBagConstraints orderedText = new GridBagConstraints();
-	orderedText.gridx = 1;
-	orderedText.gridy = 2;
-	orderedText.fill = GridBagConstraints.BOTH;
-	orderedText.weightx = 0.5;
-	orderedText.weighty = 1;
-	orderedText.insets = new Insets(0, 2, 0, 2);
-	add(getOrderedScrollPane(), orderedText);
-	GridBagConstraints towerText = new GridBagConstraints();
-	towerText.gridx = 2;
-	towerText.gridy = 2;
-	towerText.fill = GridBagConstraints.BOTH;
-	towerText.weightx = 0.3;
-	towerText.weighty = 1;
-	towerText.insets = new Insets(0, 2, 0, 0);
-	add(getTowerScrollPane(), towerText);
-    }
-
-    // --- attributes
-    private ModelTower modelTower;
-    ModelTower getModelTower() { return modelTower; }
-    void setModelTower(ModelTower m) { modelTower = m; }
-
-    // --- components
-
-    // --- GUI components
-//      private JPanel titlePanel;
-//      protected JPanel getTitlePanel() {
-//  	if (titlePanel == null) {
-//  	    titlePanel = new JPanel();
-//  	    titlePanel.setLayout(new BorderLayout());
-//  	    titlePanel.add(getModelTowerActionLabel(),
-//  			   BorderLayout.WEST);
-//  	}
-//  	return titlePanel;
-//      }
-//      private LabelButton modelTowerLabelButton;
-//      protected LabelButton getModelTowerLabelButton() {
-//  	if (modelTowerLabelButton == null) {
-//  	    modelTowerLabelButton = new LabelButton();
-//  	    modelTowerLabelButton.setIconText("Model Tower");
-//  	}
-//  	return modelTowerLabelButton;
-//      }
-    private ActionLabel modelTowerActionLabel;
-    protected ActionLabel getModelTowerActionLabel() {
-	if (modelTowerActionLabel == null) {
-	    modelTowerActionLabel = new ActionLabel();
-	    modelTowerActionLabel.setText("Model Tower");
-
-	    modelTowerActionLabel.setAction(new AbstractAction("ModelTower") {
-		    public void actionPerformed(ActionEvent ae) {
-			boolean useBuiltInHelpBrowser = 
-			    (ae.getModifiers()&ActionEvent.SHIFT_MASK)==0? false : true;
-			TRTower.getInstance().showHelp(useBuiltInHelpBrowser, 
-						       "Model Tower", 
-						       "help/ModelTower.html");
-		    }
-		});
-	}
-	return modelTowerActionLabel;
-    }
-
-    private ActionLabel clearActionLabel;
-    protected ActionLabel getClearActionLabel() {
-	if (clearActionLabel == null) {
-	    clearActionLabel = new ActionLabel();
-	    clearActionLabel.setText("Clear");
-	    clearActionLabel.setFont(clearActionLabel.getFont().deriveFont(Font.ITALIC));
-	    clearActionLabel.setAction(new  AbstractAction("Clear") {
-		    public void actionPerformed(ActionEvent ae) {
-			boolean useBuiltInHelpBrowser = 
-			    (ae.getModifiers()&ActionEvent.SHIFT_MASK)==0? false : true;
-			TRTower.getInstance().showHelp(useBuiltInHelpBrowser, 
-						       "Clear", 
-						       "help/Clear.html");
-		    }
-		});
-	}
-	return clearActionLabel;
-    }
-
-    private ActionLabel orderedActionLabel;
-    protected ActionLabel getOrderedActionLabel() {
-	if (orderedActionLabel == null) {
-	    orderedActionLabel = new ActionLabel();
-	    orderedActionLabel.setText("Ordered");
-	    orderedActionLabel.setFont(orderedActionLabel.getFont().deriveFont(Font.ITALIC));
-	    orderedActionLabel.setAction(new AbstractAction("Ordered") {
-		    public void actionPerformed(ActionEvent ae) {
-			boolean useBuiltInHelpBrowser = 
-			    (ae.getModifiers()&ActionEvent.SHIFT_MASK)==0? false : true;
-			TRTower.getInstance().showHelp(useBuiltInHelpBrowser, 
-						       "Ordered", 
-						       "help/Ordered.html");
-		    }
-		});
-	}
-	return orderedActionLabel;
-    }
-
-    private ActionLabel towerActionLabel;
-    protected ActionLabel getTowerActionLabel() {
-	if (towerActionLabel == null) {
-	    towerActionLabel = new ActionLabel();
-	    towerActionLabel.setText("Tower");
-	    towerActionLabel.setFont(towerActionLabel.getFont().deriveFont(Font.ITALIC));
-	    towerActionLabel.setAction(new AbstractAction("Tower") {
-		    public void actionPerformed(ActionEvent ae) {
-			boolean useBuiltInHelpBrowser = 
-			    (ae.getModifiers()&ActionEvent.SHIFT_MASK)==0? false : true;
-			TRTower.getInstance().showHelp(useBuiltInHelpBrowser, 
-						       "Tower", 
-						       "help/Tower.html");
-		    }
-		});
-    
-	}
-	return towerActionLabel;
-    }
-
-    // --- GUI components from ModelPanel
-    private Color clearDefaultForeground;
-    private JTextArea clearTextArea;
-    protected JTextArea getClearTextArea() {
-	if (clearTextArea == null) {
-	    clearTextArea = new JTextArea(7, 10);
-	    clearDefaultForeground = clearTextArea.getForeground();
-	    clearTextArea.setEditable(false);
-	    clearTextArea.setTabSize(1);
-	}
-	return clearTextArea;
-    }
-    private JScrollPane clearScrollPane;
-    protected JScrollPane getClearScrollPane() {
-	if (clearScrollPane == null) {
-	    clearScrollPane = new JScrollPane(getClearTextArea());
-	}
-	return clearScrollPane;
-    }
-    private Color orderedDefaultForeground;
-    private JTextArea orderedTextArea;
-    protected JTextArea getOrderedTextArea() {
-	if (orderedTextArea == null) {
-	    orderedTextArea = new JTextArea(7, 20);
-	    orderedDefaultForeground = orderedTextArea.getForeground();
-	    orderedTextArea.setEditable(false);
-	    orderedTextArea.setTabSize(1);
-	}
-	return orderedTextArea;
-    }
-    private JScrollPane orderedScrollPane;
-    protected JScrollPane getOrderedScrollPane() {
-	if (orderedScrollPane == null) {
-	    orderedScrollPane = new JScrollPane(getOrderedTextArea());
-	}
-	return orderedScrollPane;
-    }
-    private Color towerDefaultForeground;
-    private JTextArea towerTextArea;
-    protected JTextArea getTowerTextArea() {
-	if (towerTextArea == null) {
-	    towerTextArea = new JTextArea(7, 15);
-	    towerDefaultForeground = towerTextArea.getForeground();
-	    towerTextArea.setEditable(false);
-	    towerTextArea.setTabSize(1);
-	}
-	return towerTextArea;
-    }
-    private JScrollPane towerScrollPane;
-    protected JScrollPane getTowerScrollPane() {
-	if (towerScrollPane == null) {
-	    towerScrollPane = new JScrollPane(getTowerTextArea());
-	}
-	return towerScrollPane;
-    }
-
-    // --- public method
-    public void stimuStep() {
-
-	if (!getModelTower().isAvailable()) {
-	    getClearTextArea().setForeground(Color.gray);
-	    getOrderedTextArea().setForeground(Color.gray);
-	    getTowerTextArea().setForeground(Color.gray);
-	    return;
-	} else {
-	    getClearTextArea().setForeground(clearDefaultForeground);
-	    getOrderedTextArea().setForeground(orderedDefaultForeground);
-	    getTowerTextArea().setForeground(towerDefaultForeground);
+		final GridBagConstraints clearText = new GridBagConstraints();
+		clearText.gridx = 0;
+		clearText.gridy = 2;
+		clearText.fill = GridBagConstraints.BOTH;
+		clearText.weightx = 0.2;
+		clearText.weighty = 1;
+		clearText.insets = new Insets(0, 0, 0, 2);
+		add(getClearScrollPane(), clearText);
+		final GridBagConstraints orderedText = new GridBagConstraints();
+		orderedText.gridx = 1;
+		orderedText.gridy = 2;
+		orderedText.fill = GridBagConstraints.BOTH;
+		orderedText.weightx = 0.5;
+		orderedText.weighty = 1;
+		orderedText.insets = new Insets(0, 2, 0, 2);
+		add(getOrderedScrollPane(), orderedText);
+		final GridBagConstraints towerText = new GridBagConstraints();
+		towerText.gridx = 2;
+		towerText.gridy = 2;
+		towerText.fill = GridBagConstraints.BOTH;
+		towerText.weightx = 0.3;
+		towerText.weighty = 1;
+		towerText.insets = new Insets(0, 2, 0, 0);
+		add(getTowerScrollPane(), towerText);
 	}
 
-	if (!getModelTower().isChanged()) {
-	    // model tower not changed, nothing to do
-	    return;
+	private ModelTower modelTower;
+
+	ModelTower getModelTower() {
+		return this.modelTower;
 	}
 
-	// --- clear 
-	List blockIdList = getModelTower().getExistingBlockIds();
-	Iterator bi = blockIdList.iterator();
-	StringBuffer sbc = new StringBuffer();
-	while (bi.hasNext()) {
-	    String blockId = (String)(bi.next());
-	    sbc.append(" " + blockId + " \t:" + "\t\t");
-	    if (getModelTower().isClear(blockId)) {
-		//		sbc.append("\t\t\t");
-		sbc.append("clear");
-	    }
-	    sbc.append("\n");
+	void setModelTower(final ModelTower m) {
+		this.modelTower = m;
 	}
-	String clearString = sbc.toString();
-	if (!clearString.equals(getClearTextArea().getText()))
-	    getClearTextArea().setText(clearString);
 
-	int numOfBlocks = getModelTower().getExistingBlockIds().size();
-	// --- ordered
-	StringBuffer sbo = new StringBuffer();
-	//	sbo.append(" Ordered:\n");
-	List orderedListList = getModelTower().getOrderedListList();
-	for (int i = 1; i<=numOfBlocks; i++) {
-	    List ll = ListUtilities.listLengthFilter(orderedListList, i);
-	    if (ll.size() > 0) {
-		Iterator lli = ll.iterator();
-		while (lli.hasNext()) {
-		    List l = (List)(lli.next());
-		    sbo.append(" " + ListUtilities.listToString(l) + "    ");
+	private ActionLabel modelTowerActionLabel;
+
+	protected ActionLabel getModelTowerActionLabel() {
+		if (this.modelTowerActionLabel == null) {
+			this.modelTowerActionLabel = new ActionLabel();
+			this.modelTowerActionLabel.setText("Model Tower");
+
+			this.modelTowerActionLabel.setAction(new AbstractAction("ModelTower") {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(final ActionEvent ae) {
+					final boolean useBuiltInHelpBrowser = (ae.getModifiers() & ActionEvent.SHIFT_MASK) == 0 ? false
+							: true;
+					TRTower.getInstance().showHelp(useBuiltInHelpBrowser, "Model Tower", "help/ModelTower.html");
+				}
+			});
 		}
-		sbo.append("\n");
-	    }
+		return this.modelTowerActionLabel;
 	}
-	String orderedString = sbo.toString();
-	if (!orderedString.equals(getOrderedTextArea().getText()))
-	    getOrderedTextArea().setText(orderedString);
-       
-	// --- tower
-	StringBuffer sbt = new StringBuffer();
-	//	sbt.append(" Tower:\n");
-	List towerListList = getModelTower().getTowerListList();
-	Iterator ti = towerListList.iterator();
-	while (ti.hasNext()) {
-	    List l = (List)(ti.next());
-	    sbt.append(" " + ListUtilities.listToString(l) + "\n");
+
+	private ActionLabel clearActionLabel;
+
+	protected ActionLabel getClearActionLabel() {
+		if (this.clearActionLabel == null) {
+			this.clearActionLabel = new ActionLabel();
+			this.clearActionLabel.setText("Clear");
+			this.clearActionLabel.setFont(this.clearActionLabel.getFont().deriveFont(Font.ITALIC));
+			this.clearActionLabel.setAction(new AbstractAction("Clear") {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(final ActionEvent ae) {
+					final boolean useBuiltInHelpBrowser = (ae.getModifiers() & ActionEvent.SHIFT_MASK) == 0 ? false
+							: true;
+					TRTower.getInstance().showHelp(useBuiltInHelpBrowser, "Clear", "help/Clear.html");
+				}
+			});
+		}
+		return this.clearActionLabel;
 	}
-	String towerString = sbt.toString();
-	if (!towerString.equals(getTowerTextArea().getText()))
-	    getTowerTextArea().setText(towerString);
-    }
+
+	private ActionLabel orderedActionLabel;
+
+	protected ActionLabel getOrderedActionLabel() {
+		if (this.orderedActionLabel == null) {
+			this.orderedActionLabel = new ActionLabel();
+			this.orderedActionLabel.setText("Ordered");
+			this.orderedActionLabel.setFont(this.orderedActionLabel.getFont().deriveFont(Font.ITALIC));
+			this.orderedActionLabel.setAction(new AbstractAction("Ordered") {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(final ActionEvent ae) {
+					final boolean useBuiltInHelpBrowser = (ae.getModifiers() & ActionEvent.SHIFT_MASK) == 0 ? false
+							: true;
+					TRTower.getInstance().showHelp(useBuiltInHelpBrowser, "Ordered", "help/Ordered.html");
+				}
+			});
+		}
+		return this.orderedActionLabel;
+	}
+
+	private ActionLabel towerActionLabel;
+
+	protected ActionLabel getTowerActionLabel() {
+		if (this.towerActionLabel == null) {
+			this.towerActionLabel = new ActionLabel();
+			this.towerActionLabel.setText("Tower");
+			this.towerActionLabel.setFont(this.towerActionLabel.getFont().deriveFont(Font.ITALIC));
+			this.towerActionLabel.setAction(new AbstractAction("Tower") {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(final ActionEvent ae) {
+					final boolean useBuiltInHelpBrowser = (ae.getModifiers() & ActionEvent.SHIFT_MASK) == 0 ? false
+							: true;
+					TRTower.getInstance().showHelp(useBuiltInHelpBrowser, "Tower", "help/Tower.html");
+				}
+			});
+		}
+		return this.towerActionLabel;
+	}
+
+	private Color clearDefaultForeground;
+	private JTextArea clearTextArea;
+
+	protected JTextArea getClearTextArea() {
+		if (this.clearTextArea == null) {
+			this.clearTextArea = new JTextArea(7, 10);
+			this.clearDefaultForeground = this.clearTextArea.getForeground();
+			this.clearTextArea.setEditable(false);
+			this.clearTextArea.setTabSize(1);
+		}
+		return this.clearTextArea;
+	}
+
+	private JScrollPane clearScrollPane;
+
+	protected JScrollPane getClearScrollPane() {
+		if (this.clearScrollPane == null) {
+			this.clearScrollPane = new JScrollPane(getClearTextArea());
+		}
+		return this.clearScrollPane;
+	}
+
+	private Color orderedDefaultForeground;
+	private JTextArea orderedTextArea;
+
+	protected JTextArea getOrderedTextArea() {
+		if (this.orderedTextArea == null) {
+			this.orderedTextArea = new JTextArea(7, 20);
+			this.orderedDefaultForeground = this.orderedTextArea.getForeground();
+			this.orderedTextArea.setEditable(false);
+			this.orderedTextArea.setTabSize(1);
+		}
+		return this.orderedTextArea;
+	}
+
+	private JScrollPane orderedScrollPane;
+
+	protected JScrollPane getOrderedScrollPane() {
+		if (this.orderedScrollPane == null) {
+			this.orderedScrollPane = new JScrollPane(getOrderedTextArea());
+		}
+		return this.orderedScrollPane;
+	}
+
+	private Color towerDefaultForeground;
+	private JTextArea towerTextArea;
+
+	protected JTextArea getTowerTextArea() {
+		if (this.towerTextArea == null) {
+			this.towerTextArea = new JTextArea(7, 15);
+			this.towerDefaultForeground = this.towerTextArea.getForeground();
+			this.towerTextArea.setEditable(false);
+			this.towerTextArea.setTabSize(1);
+		}
+		return this.towerTextArea;
+	}
+
+	private JScrollPane towerScrollPane;
+
+	protected JScrollPane getTowerScrollPane() {
+		if (this.towerScrollPane == null) {
+			this.towerScrollPane = new JScrollPane(getTowerTextArea());
+		}
+		return this.towerScrollPane;
+	}
+
+	@Override
+	public void stimuStep() {
+
+		if (!getModelTower().isAvailable()) {
+			getClearTextArea().setForeground(Color.gray);
+			getOrderedTextArea().setForeground(Color.gray);
+			getTowerTextArea().setForeground(Color.gray);
+			return;
+		} else {
+			getClearTextArea().setForeground(this.clearDefaultForeground);
+			getOrderedTextArea().setForeground(this.orderedDefaultForeground);
+			getTowerTextArea().setForeground(this.towerDefaultForeground);
+		}
+
+		if (!getModelTower().isChanged()) {
+			// model tower not changed, nothing to do
+			return;
+		}
+
+		final List<String> blockIdList = getModelTower().getExistingBlockIds();
+		final Iterator<String> bi = blockIdList.iterator();
+		final StringBuffer sbc = new StringBuffer();
+		while (bi.hasNext()) {
+			final String blockId = (bi.next());
+			sbc.append(" " + blockId + " \t:" + "\t\t");
+			if (getModelTower().isClear(blockId)) {
+				sbc.append("clear");
+			}
+			sbc.append("\n");
+		}
+		final String clearString = sbc.toString();
+		if (!clearString.equals(getClearTextArea().getText())) {
+			getClearTextArea().setText(clearString);
+		}
+
+		final int numOfBlocks = getModelTower().getExistingBlockIds().size();
+		final StringBuffer sbo = new StringBuffer();
+		final List<List<String>> orderedListList = getModelTower().getOrderedListList();
+		for (int i = 1; i <= numOfBlocks; i++) {
+			final List<List<String>> ll = ListUtilities.listLengthFilter(orderedListList, i);
+			if (ll.size() > 0) {
+				final Iterator<List<String>> lli = ll.iterator();
+				while (lli.hasNext()) {
+					final List<String> l = lli.next();
+					sbo.append(" " + ListUtilities.listToString(l) + "    ");
+				}
+				sbo.append("\n");
+			}
+		}
+		final String orderedString = sbo.toString();
+		if (!orderedString.equals(getOrderedTextArea().getText())) {
+			getOrderedTextArea().setText(orderedString);
+		}
+
+		final StringBuffer sbt = new StringBuffer();
+		final List<List<String>> towerListList = getModelTower().getTowerListList();
+		final Iterator<List<String>> ti = towerListList.iterator();
+		while (ti.hasNext()) {
+			final List<String> l = ti.next();
+			sbt.append(" " + ListUtilities.listToString(l) + "\n");
+		}
+		final String towerString = sbt.toString();
+		if (!towerString.equals(getTowerTextArea().getText())) {
+			getTowerTextArea().setText(towerString);
+		}
+	}
 }

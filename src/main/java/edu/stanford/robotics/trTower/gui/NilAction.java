@@ -3,9 +3,8 @@ package edu.stanford.robotics.trTower.gui;
 import edu.stanford.robotics.trTower.virtualWorld.DurativeArmAction;
 
 public class NilAction extends DurativeArmAction {
-
+	@Override
 	public void actionStep() {
-
 		if (!getVirtualWorldModel().isAvailable()) {
 			setStatusMessage("External perturbation.");
 			return;

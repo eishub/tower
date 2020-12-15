@@ -7,149 +7,185 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 /** Wouter: HACK made public, I need it to get percepts */
-
 public class RobotArm extends VirtualObject {
+	private double armThickness;
 
-//      // independent parameters
-//      static final double armThickness = VirtualWorld.blockWidth/8;
-//      static final double innerArmWidth = VirtualWorld.blockWidth;
-//      static final double innerArmDrop = VirtualWorld.blockHeight/2;
-//      // derived parameters
-//      static final double outterArmDrop = innerArmDrop + armThickness;
-//      static final double armShoulder = 
-//  	(innerArmWidth + 2*armThickness - armThickness)/2;
-//      // resing location
-//      static final double armRestX = VirtualWorld.armRestX;
-//      static final double armRestY = VirtualWorld.armRestY;
-//      static final double armCeilingY = VirtualWorld.armCeilingY;
-
-    // properties (independent parameters)
-    private double armThickness;
-    double getArmThickness() { return armThickness; }
-    void setArmThickness(double t) { armThickness = t; }
-    private double innerArmWidth;
-    double getInnerArmWidth() { return innerArmWidth; }
-    void setInnerArmWidth(double w) { innerArmWidth = w; }
-    private double innerArmDrop;
-    double getInnerArmDrop() { return innerArmDrop; }
-    void setInnerArmDrop(double w) { innerArmDrop = w; }
-
-    private double armCeilingY;
-    double getArmCeilingY() { return armCeilingY; }
-    void setArmCeilingY(double y) { armCeilingY = y; }
-//      private double armRestX;
-//      double getArmRestX() { return armRestX; }
-//      void setArmRestX(double x) { armRestX = x; }
-//      private double armRestY;
-//      double getArmRestY() { return armRestY; }
-//      void setArmRestY(double y) { armRestY = y; }
-    private Point2D armRestCoord;
-    Point2D getArmRestCoord() { return armRestCoord; }
-    void setArmRestCoord(Point2D r) { armRestCoord = r; }
-    void setArmRestCoord(double x, double y) { armRestCoord = 
-						   new Point2D.Double(x, y); }
-    // properties (derived parameters)
-    double getOutterArmDrop() { return getInnerArmDrop() + getArmThickness(); }
-    double getArmShoulder() { 
-	return (getInnerArmWidth() + getArmThickness())/2;
-    }
-    
-    // properties
-    private Block blockHeld;
-    // Wouter HACK made public 15apr08 to get percepts. 
-    public  Block getBlockHeld() { return blockHeld; }
-    public void setBlockHeld(Block b) { blockHeld = b; }
-    private DurativeArmAction durativeArmAction;
-    DurativeArmAction getDurativeArmAction() { return durativeArmAction; }
-    void setDurativeArmAction(DurativeArmAction a) { durativeArmAction = a; }
-    private static final double maxClawOpenning = 3;
-    private double clawOpenning = maxClawOpenning;
-//      double getClawOpenning() { return clawOpenning; }
-//      void setClawOpenning(double o) { clawOpenning = o; }
-    public void openClaw() {
-	if (clawOpenning < maxClawOpenning)
-	    clawOpenning += 1;
-    }
-    void completelyOpenClaw() {
-	clawOpenning = maxClawOpenning;
-    }
-    public void closeClaw() {
-	if (clawOpenning > 0)
-	    clawOpenning -= 1;
-    }
-    void completelyCloseClaw() {
-	clawOpenning = 0;
-    }
-    public boolean isClawCompletelyOpen() {
-	return clawOpenning==maxClawOpenning ? true : false;
-    }
-    public boolean isClawCompletelyClosed() { 
-	return clawOpenning==0 ? true: false;
-    }
-
-    protected Shape getArmShape() {
-
-	if (getCoord() == null) {
-	    System.out.println("RobotArm.getArmShape> getCoord() is null");
-	    System.exit(-1);
+	double getArmThickness() {
+		return this.armThickness;
 	}
-	double coordX = getCoord().getX();
-	double coordY = getCoord().getY();
 
-	GeneralPath armPath = new GeneralPath();
-	double x;
-	double y;
-	x = coordX - clawOpenning;
-	y = coordY - clawOpenning;
-	armPath.moveTo((float)x, (float)y);
-	y += getInnerArmDrop();
-	armPath.lineTo((float)x, (float)y);
-	x += -getArmThickness();
-	armPath.lineTo((float)x, (float)y);
-	y += -getOutterArmDrop();
-	armPath.lineTo((float)x, (float)y);
-	x += getArmShoulder() + clawOpenning;
-	armPath.lineTo((float)x, (float)y);
-	y = getArmCeilingY();
-	armPath.lineTo((float)x, (float)y);
-	x += getArmThickness();
-	armPath.lineTo((float)x, (float)y);
-	y = coordY - getArmThickness() - clawOpenning;
-	armPath.lineTo((float)x, (float)y);
-	x += getArmShoulder() + clawOpenning;
-	armPath.lineTo((float)x, (float)y);
-	y += getOutterArmDrop();
-	armPath.lineTo((float)x, (float)y);
-	x += -getArmThickness();
-	armPath.lineTo((float)x, (float)y);
-	y += -getInnerArmDrop();
-	armPath.lineTo((float)x, (float)y);
-	armPath.closePath();
-	return armPath;
-    }
-		       
-    // methods
-    void render(Graphics g) {
+	void setArmThickness(final double t) {
+		this.armThickness = t;
+	}
 
-	if (g == null) {
-	    System.out.println("RobotArm.render> g is null");
-	    System.exit(-1);
+	private double innerArmWidth;
+
+	double getInnerArmWidth() {
+		return this.innerArmWidth;
 	}
-	Graphics2D g2 = (Graphics2D)g;
-	// drawArm
-	if (getPaint() == null) {
-	    System.out.println("RobotArm.render> getPaint() is null");
-	    System.exit(-1);
+
+	void setInnerArmWidth(final double w) {
+		this.innerArmWidth = w;
 	}
-	if (getArmShape() == null) {
-	    System.out.println("RobotArm.render> getArmShape() is null");
-	    System.exit(-1);
+
+	private double innerArmDrop;
+
+	double getInnerArmDrop() {
+		return this.innerArmDrop;
 	}
-	g2.setPaint(getPaint());
-	//	g2.setPaint(Color.white);
-	g2.fill(getArmShape());
-    }
-    void setDurativeAction() {}
-    void stepAction() {}
-    
+
+	void setInnerArmDrop(final double w) {
+		this.innerArmDrop = w;
+	}
+
+	private double armCeilingY;
+
+	double getArmCeilingY() {
+		return this.armCeilingY;
+	}
+
+	void setArmCeilingY(final double y) {
+		this.armCeilingY = y;
+	}
+
+	private Point2D armRestCoord;
+
+	Point2D getArmRestCoord() {
+		return this.armRestCoord;
+	}
+
+	void setArmRestCoord(final Point2D r) {
+		this.armRestCoord = r;
+	}
+
+	void setArmRestCoord(final double x, final double y) {
+		this.armRestCoord = new Point2D.Double(x, y);
+	}
+
+	double getOutterArmDrop() {
+		return getInnerArmDrop() + getArmThickness();
+	}
+
+	double getArmShoulder() {
+		return (getInnerArmWidth() + getArmThickness()) / 2;
+	}
+
+	private Block blockHeld;
+
+	// Wouter HACK made public 15apr08 to get percepts.
+	public Block getBlockHeld() {
+		return this.blockHeld;
+	}
+
+	public void setBlockHeld(final Block b) {
+		this.blockHeld = b;
+	}
+
+	private DurativeArmAction durativeArmAction;
+
+	DurativeArmAction getDurativeArmAction() {
+		return this.durativeArmAction;
+	}
+
+	void setDurativeArmAction(final DurativeArmAction a) {
+		this.durativeArmAction = a;
+	}
+
+	private static final double maxClawOpenning = 3;
+	private double clawOpenning = maxClawOpenning;
+
+	public void openClaw() {
+		if (this.clawOpenning < maxClawOpenning) {
+			this.clawOpenning += 1;
+		}
+	}
+
+	void completelyOpenClaw() {
+		this.clawOpenning = maxClawOpenning;
+	}
+
+	public void closeClaw() {
+		if (this.clawOpenning > 0) {
+			this.clawOpenning -= 1;
+		}
+	}
+
+	void completelyCloseClaw() {
+		this.clawOpenning = 0;
+	}
+
+	public boolean isClawCompletelyOpen() {
+		return this.clawOpenning == maxClawOpenning ? true : false;
+	}
+
+	public boolean isClawCompletelyClosed() {
+		return this.clawOpenning == 0 ? true : false;
+	}
+
+	protected Shape getArmShape() {
+		if (getCoord() == null) {
+			System.out.println("RobotArm.getArmShape> getCoord() is null");
+			System.exit(-1);
+		}
+		final double coordX = getCoord().getX();
+		final double coordY = getCoord().getY();
+
+		final GeneralPath armPath = new GeneralPath();
+		double x;
+		double y;
+		x = coordX - this.clawOpenning;
+		y = coordY - this.clawOpenning;
+		armPath.moveTo((float) x, (float) y);
+		y += getInnerArmDrop();
+		armPath.lineTo((float) x, (float) y);
+		x += -getArmThickness();
+		armPath.lineTo((float) x, (float) y);
+		y += -getOutterArmDrop();
+		armPath.lineTo((float) x, (float) y);
+		x += getArmShoulder() + this.clawOpenning;
+		armPath.lineTo((float) x, (float) y);
+		y = getArmCeilingY();
+		armPath.lineTo((float) x, (float) y);
+		x += getArmThickness();
+		armPath.lineTo((float) x, (float) y);
+		y = coordY - getArmThickness() - this.clawOpenning;
+		armPath.lineTo((float) x, (float) y);
+		x += getArmShoulder() + this.clawOpenning;
+		armPath.lineTo((float) x, (float) y);
+		y += getOutterArmDrop();
+		armPath.lineTo((float) x, (float) y);
+		x += -getArmThickness();
+		armPath.lineTo((float) x, (float) y);
+		y += -getInnerArmDrop();
+		armPath.lineTo((float) x, (float) y);
+		armPath.closePath();
+		return armPath;
+	}
+
+	@Override
+	void render(final Graphics g) {
+		if (g == null) {
+			System.out.println("RobotArm.render> g is null");
+			System.exit(-1);
+		}
+		final Graphics2D g2 = (Graphics2D) g;
+		// drawArm
+		if (getPaint() == null) {
+			System.out.println("RobotArm.render> getPaint() is null");
+			System.exit(-1);
+		}
+		if (getArmShape() == null) {
+			System.out.println("RobotArm.render> getArmShape() is null");
+			System.exit(-1);
+		}
+		g2.setPaint(getPaint());
+		// g2.setPaint(Color.white);
+		g2.fill(getArmShape());
+	}
+
+	void setDurativeAction() {
+	}
+
+	void stepAction() {
+	}
 }

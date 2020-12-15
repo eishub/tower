@@ -1,14 +1,17 @@
 package edu.stanford.robotics.trTower.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 
-import edu.stanford.robotics.trTower.*;
-import edu.stanford.robotics.trTower.virtualWorld.*;
+import javax.swing.AbstractAction;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import edu.stanford.robotics.trTower.Stimulator;
 
 public class StimulatorPanel extends JPanel {
-
+	private static final long serialVersionUID = 1L;
 	protected static final int hs = 10;
 	protected static final int vs = 10;
 
@@ -17,25 +20,25 @@ public class StimulatorPanel extends JPanel {
 		add(getControlBox());
 	}
 
-	// --- attributes
 	private Stimulator stimulator;
 
 	public Stimulator getStimulator() {
-		return stimulator;
+		return this.stimulator;
 	}
 
-	public void setStimulator(Stimulator s) {
-		stimulator = s;
+	public void setStimulator(final Stimulator s) {
+		this.stimulator = s;
 	}
-
-	// --- GUI actions
 
 	class NewBlockGuiAction extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
 		NewBlockGuiAction() {
 			super("New Block");
 		}
 
-		public void actionPerformed(ActionEvent ae) {
+		@Override
+		public void actionPerformed(final ActionEvent ae) {
 			getStimulator().setToAddNewBlock(true);
 		}
 	}
@@ -43,18 +46,21 @@ public class StimulatorPanel extends JPanel {
 	private NewBlockGuiAction newBlockGuiAction;
 
 	protected NewBlockGuiAction getNewBlockGuiAction() {
-		if (newBlockGuiAction == null) {
-			newBlockGuiAction = new NewBlockGuiAction();
+		if (this.newBlockGuiAction == null) {
+			this.newBlockGuiAction = new NewBlockGuiAction();
 		}
-		return newBlockGuiAction;
+		return this.newBlockGuiAction;
 	}
 
 	class ResetGuiAction extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
 		ResetGuiAction() {
 			super("Reset");
 		}
 
-		public void actionPerformed(ActionEvent ae) {
+		@Override
+		public void actionPerformed(final ActionEvent ae) {
 			getStimulator().setToBeReset(true);
 		}
 	}
@@ -62,69 +68,67 @@ public class StimulatorPanel extends JPanel {
 	private ResetGuiAction resetGuiAction;
 
 	protected ResetGuiAction getResetGuiAction() {
-		if (resetGuiAction == null) {
-			resetGuiAction = new ResetGuiAction();
+		if (this.resetGuiAction == null) {
+			this.resetGuiAction = new ResetGuiAction();
 		}
-		return resetGuiAction;
+		return this.resetGuiAction;
 	}
 
-	// --- components
 	private Box controlBox;
 
 	protected Box getControlBox() {
-		if (controlBox == null) {
-			controlBox = Box.createVerticalBox();
-			controlBox.add(Box.createVerticalStrut(vs));
-			controlBox.add(getNewBlockButtonBox());
-			controlBox.add(Box.createVerticalStrut(vs));
-			controlBox.add(getResetButtonBox());
-			controlBox.add(Box.createVerticalStrut(vs));
-			controlBox.add(Box.createVerticalGlue());
+		if (this.controlBox == null) {
+			this.controlBox = Box.createVerticalBox();
+			this.controlBox.add(Box.createVerticalStrut(vs));
+			this.controlBox.add(getNewBlockButtonBox());
+			this.controlBox.add(Box.createVerticalStrut(vs));
+			this.controlBox.add(getResetButtonBox());
+			this.controlBox.add(Box.createVerticalStrut(vs));
+			this.controlBox.add(Box.createVerticalGlue());
 		}
-		return controlBox;
+		return this.controlBox;
 	}
 
 	private Box newBlockButtonBox;
 
 	protected Box getNewBlockButtonBox() {
-		if (newBlockButtonBox == null) {
-			newBlockButtonBox = Box.createHorizontalBox();
-			newBlockButtonBox.add(getNewBlockButton());
-			newBlockButtonBox.add(Box.createHorizontalGlue());
+		if (this.newBlockButtonBox == null) {
+			this.newBlockButtonBox = Box.createHorizontalBox();
+			this.newBlockButtonBox.add(getNewBlockButton());
+			this.newBlockButtonBox.add(Box.createHorizontalGlue());
 		}
-		return newBlockButtonBox;
+		return this.newBlockButtonBox;
 	}
 
 	private JButton newBlockButton;
 
 	protected JButton getNewBlockButton() {
-		if (newBlockButton == null) {
-			newBlockButton = new JButton();
-			newBlockButton.setAction(getNewBlockGuiAction());
+		if (this.newBlockButton == null) {
+			this.newBlockButton = new JButton();
+			this.newBlockButton.setAction(getNewBlockGuiAction());
 		}
-		return newBlockButton;
+		return this.newBlockButton;
 	}
 
 	private Box resetButtonBox;
 
 	protected Box getResetButtonBox() {
-		if (resetButtonBox == null) {
-			resetButtonBox = Box.createHorizontalBox();
-			resetButtonBox.add(getResetButton());
-			resetButtonBox.add(Box.createHorizontalGlue());
+		if (this.resetButtonBox == null) {
+			this.resetButtonBox = Box.createHorizontalBox();
+			this.resetButtonBox.add(getResetButton());
+			this.resetButtonBox.add(Box.createHorizontalGlue());
 		}
-		return resetButtonBox;
+		return this.resetButtonBox;
 	}
 
 	private JButton resetButton;
 
 	protected JButton getResetButton() {
-		if (resetButton == null) {
-			resetButton = new JButton();
-			resetButton.setAction(getResetGuiAction());
-			resetButton.setToolTipText("Erase all blocks and cancel action");
+		if (this.resetButton == null) {
+			this.resetButton = new JButton();
+			this.resetButton.setAction(getResetGuiAction());
+			this.resetButton.setToolTipText("Erase all blocks and cancel action");
 		}
-		return resetButton;
+		return this.resetButton;
 	}
-
 }

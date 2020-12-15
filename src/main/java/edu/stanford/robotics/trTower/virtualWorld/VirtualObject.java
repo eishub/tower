@@ -1,30 +1,53 @@
 package edu.stanford.robotics.trTower.virtualWorld;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Graphics;
+import java.awt.Paint;
+import java.awt.geom.Point2D;
 
 public abstract class VirtualObject {
+	private String id;
 
-    // properties
-    private String id;
-    public String getId() { return id; }
-    void setId(String s) { id = s; }
-    
-    private Paint paint;
-    Paint getPaint() { return paint; }
-    void setPaint(Paint p) { paint = p; }
+	public String getId() {
+		return this.id;
+	}
 
-    private Point2D coord;
-    public Point2D getCoord() { return coord; }
-    void setCoord(Point2D p) { coord = p; }
-//      double getXCoord() { return coord.getX(); }
-//      double getYCoord() { return coord.getY(); }
-    void setCoord(double x, double y) { coord = new Point2D.Double(x, y); }
+	void setId(final String s) {
+		this.id = s;
+	}
 
-    private boolean coordLegal = true;
-    boolean isCoordLegal() { return coordLegal; }
-    void setCoordLegal(boolean l) { coordLegal = l; }
-    
-    // public methods
-    abstract void render(Graphics g);
+	private Paint paint;
+
+	Paint getPaint() {
+		return this.paint;
+	}
+
+	void setPaint(final Paint p) {
+		this.paint = p;
+	}
+
+	private Point2D coord;
+
+	public Point2D getCoord() {
+		return this.coord;
+	}
+
+	void setCoord(final Point2D p) {
+		this.coord = p;
+	}
+
+	void setCoord(final double x, final double y) {
+		this.coord = new Point2D.Double(x, y);
+	}
+
+	private boolean coordLegal = true;
+
+	boolean isCoordLegal() {
+		return this.coordLegal;
+	}
+
+	void setCoordLegal(final boolean l) {
+		this.coordLegal = l;
+	}
+
+	abstract void render(Graphics g);
 }

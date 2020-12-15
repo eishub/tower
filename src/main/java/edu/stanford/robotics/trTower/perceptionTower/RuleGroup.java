@@ -2,11 +2,7 @@ package edu.stanford.robotics.trTower.perceptionTower;
 
 import edu.stanford.robotics.trTower.modelTower.ModelTower;
 
-/**
- *
- */
 abstract class RuleGroup implements Rule {
-
 	boolean hasNextInstance() {
 		return false;
 	}
@@ -14,20 +10,15 @@ abstract class RuleGroup implements Rule {
 	void nextInstance() {
 	}
 
-	// --- attributes
 	private ModelTower modelTower;
 
+	@Override
 	public ModelTower getModelTower() {
-		return modelTower;
+		return this.modelTower;
 	}
 
-	public void setModelTower(ModelTower mt) {
-		modelTower = mt;
+	@Override
+	public void setModelTower(final ModelTower mt) {
+		this.modelTower = mt;
 	}
-
-	/*
-	 * code broken... private ruleScheduler; RuleIterator getRuleScheduler() {
-	 * return ruleScheduler; } void setRuleScheduler(RuleScheduler rs) {
-	 * ruleScheduler = rs; }
-	 */
 }

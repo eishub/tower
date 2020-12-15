@@ -16,35 +16,31 @@ import edu.stanford.robotics.trTower.gui.PutdownAction;
  * RobotArm(s). VirtualWorld is also the "scheduler" that synchronizes the GUI
  * actions, the rendering of the world, and the execution of durative actions,
  * etc.
- * 
+ *
  * @modified 3mar10 W.Pasman now VirtualWorld is Observable to fix trac 966
  *           observers now receive "RUNNING" and "PAUSED" events.
  */
+@SuppressWarnings("deprecation")
 public class VirtualWorld extends Observable implements StimulatorListener {
-
 	public enum RunState {
 		RUNNING, PAUSED
-	};
+	}
 
-	// some colors
 	static final Paint stringPaint = Color.black;
 	static final Paint armPaint = Color.gray;
 
-	// some parameters defining the VirtualWorld
 	static final String tableId = "TA";
 	static final double xStep = 4; // fixed, #1640
 	static final double blockWidth = 30;
-	// semi-derived parameters
+
 	static final double yStep = xStep;
 	static final double blockHeight = blockWidth;
 	static final double leftMargin = blockWidth / 2;
 	static final double rightMargin = leftMargin;
 	static final double topMargin = 0;
 	static final double bottomMargin = 0;
-	// derived parameters
+
 	static final double columnWidth = blockWidth * 4 / 3;
-	// static final double xFloatErrorMargin = 0.5 * xStep;
-	// static final double yFloatErrorMargin = 0.5 * yStep;
 	static final double xFloatErrorMargin = 0.5;
 	static final double yFloatErrorMargin = 0.5;
 
@@ -55,38 +51,33 @@ public class VirtualWorld extends Observable implements StimulatorListener {
 	static final double innerArmDrop = VirtualWorld.blockHeight / 2;
 
 	static final double armCeilingY = topMargin;
-	static final Point2D armRestCoord = new Point2D.Double(leftMargin,
-			blockHeight);
+	static final Point2D armRestCoord = new Point2D.Double(leftMargin, blockHeight);
 
-	// --- components
 	private VirtualWorldModel virtualWorldModel;
 
 	/**
 	 * @modified: made public April 15th, 2009.
 	 */
 	public VirtualWorldModel getVirtualWorldModel() {
-		if (virtualWorldModel == null) {
-			virtualWorldModel = new VirtualWorldModel();
-			// --- set self parameters
-			virtualWorldModel.setTableId(tableId);
-			virtualWorldModel.setXStep(xStep);
-			virtualWorldModel.setYStep(yStep);
-			virtualWorldModel.setXFloatErrorMargin(xFloatErrorMargin);
-			virtualWorldModel.setYFloatErrorMargin(yFloatErrorMargin);
-			virtualWorldModel.setBlockWidth(blockWidth);
-			virtualWorldModel.setBlockHeight(blockHeight);
-			virtualWorldModel.setColumnWidth(columnWidth);
-			virtualWorldModel.setLeftMargin(leftMargin);
-			virtualWorldModel.setRightMargin(rightMargin);
-			virtualWorldModel.setTopMargin(topMargin);
-			virtualWorldModel.setBottomMargin(bottomMargin);
-			virtualWorldModel.setArmRestCoord(armRestCoord);
-			virtualWorldModel.setArmLengthClearence(armLengthClearence);
-
-			// --- init children
+		if (this.virtualWorldModel == null) {
+			this.virtualWorldModel = new VirtualWorldModel();
+			this.virtualWorldModel.setTableId(tableId);
+			this.virtualWorldModel.setXStep(xStep);
+			this.virtualWorldModel.setYStep(yStep);
+			this.virtualWorldModel.setXFloatErrorMargin(xFloatErrorMargin);
+			this.virtualWorldModel.setYFloatErrorMargin(yFloatErrorMargin);
+			this.virtualWorldModel.setBlockWidth(blockWidth);
+			this.virtualWorldModel.setBlockHeight(blockHeight);
+			this.virtualWorldModel.setColumnWidth(columnWidth);
+			this.virtualWorldModel.setLeftMargin(leftMargin);
+			this.virtualWorldModel.setRightMargin(rightMargin);
+			this.virtualWorldModel.setTopMargin(topMargin);
+			this.virtualWorldModel.setBottomMargin(bottomMargin);
+			this.virtualWorldModel.setArmRestCoord(armRestCoord);
+			this.virtualWorldModel.setArmLengthClearence(armLengthClearence);
 			initVirtualWorldChildren();
 		}
-		return virtualWorldModel;
+		return this.virtualWorldModel;
 	}
 
 	protected void initVirtualWorldChildren() {
@@ -97,93 +88,90 @@ public class VirtualWorld extends Observable implements StimulatorListener {
 	}
 
 	// caller of the action responsible for instantiating the action objects
-	void initDurativeArmAction(DurativeArmAction a) {
+	void initDurativeArmAction(final DurativeArmAction a) {
 		a.setHostRobotArm(getRobotArm());
 		a.setVirtualWorldModel(getVirtualWorldModel());
 	}
 
-	// --- components
 	private DemoAction demoAction;
 
 	protected DemoAction getDemoAction() {
-		if (demoAction == null) {
-			demoAction = new DemoAction();
-			initDurativeArmAction(demoAction);
+		if (this.demoAction == null) {
+			this.demoAction = new DemoAction();
+			initDurativeArmAction(this.demoAction);
 		}
-		return demoAction;
+		return this.demoAction;
 	}
 
 	private NilAction nilAction;
 
 	protected NilAction getNilAction() {
-		if (nilAction == null) {
-			nilAction = new NilAction();
-			initDurativeArmAction(nilAction);
+		if (this.nilAction == null) {
+			this.nilAction = new NilAction();
+			initDurativeArmAction(this.nilAction);
 		}
-		return nilAction;
+		return this.nilAction;
 	}
 
 	private PickupAction pickupAction;
 
 	protected PickupAction getPickupAction() {
-		if (pickupAction == null) {
-			pickupAction = new PickupAction();
-			initDurativeArmAction(pickupAction);
+		if (this.pickupAction == null) {
+			this.pickupAction = new PickupAction();
+			initDurativeArmAction(this.pickupAction);
 		}
-		return pickupAction;
+		return this.pickupAction;
 	}
 
 	private PutdownAction putdownAction;
 
 	protected PutdownAction getPutdownAction() {
-		if (putdownAction == null) {
-			putdownAction = new PutdownAction();
-			initDurativeArmAction(putdownAction);
+		if (this.putdownAction == null) {
+			this.putdownAction = new PutdownAction();
+			initDurativeArmAction(this.putdownAction);
 		}
-		return putdownAction;
+		return this.putdownAction;
 	}
 
-	public void setDurativeArmAction(DurativeArmAction a) {
+	public void setDurativeArmAction(final DurativeArmAction a) {
 		getRobotArm().setDurativeArmAction(a);
 	}
 
-	// --- public methods to set DurativeArmAction
 	public void nil() {
 		setDurativeArmAction(getNilAction());
 	}
 
-	public void pickup(String blockId) {
+	public void pickup(final String blockId) {
 		getPickupAction().setTargetBlockId(blockId);
 		setDurativeArmAction(getPickupAction());
 	}
 
-	public void putdown(String blockId, String objectId) {
+	public void putdown(final String blockId, final String objectId) {
 		getPutdownAction().setSubjectBlockId(blockId);
 		getPutdownAction().setTargetBlockId(objectId);
 		setDurativeArmAction(getPutdownAction());
 	}
 
-	// --- component
 	RobotArm robotArm;
 
 	/**
 	 * @modified made visible 15apr08.
 	 */
 	public RobotArm getRobotArm() {
-		if (robotArm == null) {
-			robotArm = new RobotArm();
-			robotArm.setId("RobotArm");
-			robotArm.setPaint(armPaint);
-			robotArm.setArmThickness(armThickness);
-			robotArm.setInnerArmWidth(innerArmWidth);
-			robotArm.setInnerArmDrop(innerArmDrop);
+		if (this.robotArm == null) {
+			this.robotArm = new RobotArm();
+			this.robotArm.setId("RobotArm");
+			this.robotArm.setPaint(armPaint);
+			this.robotArm.setArmThickness(armThickness);
+			this.robotArm.setInnerArmWidth(innerArmWidth);
+			this.robotArm.setInnerArmDrop(innerArmDrop);
 
-			robotArm.setArmCeilingY(armCeilingY);
-			robotArm.setArmRestCoord(armRestCoord);
+			this.robotArm.setArmCeilingY(armCeilingY);
+			this.robotArm.setArmRestCoord(armRestCoord);
 
 			resetRobotArm();
 		}
-		return robotArm;
+		return this.robotArm;
 	}
 
 	private void resetRobotArm() {
@@ -194,61 +182,57 @@ public class VirtualWorld extends Observable implements StimulatorListener {
 	private NewBlockCreator newBlockCreator;
 
 	protected NewBlockCreator getNewBlockCreator() {
-		if (newBlockCreator == null) {
-			newBlockCreator = new NewBlockCreator();
-			newBlockCreator.setVirtualWorldModel(getVirtualWorldModel());
-			newBlockCreator.setLabelPaint(stringPaint);
+		if (this.newBlockCreator == null) {
+			this.newBlockCreator = new NewBlockCreator();
+			this.newBlockCreator.setVirtualWorldModel(getVirtualWorldModel());
+			this.newBlockCreator.setLabelPaint(stringPaint);
 		}
-		return newBlockCreator;
+		return this.newBlockCreator;
 	}
 
-	// --- public component
 	VirtualWorldSensor virtualWorldSensor;
 
 	public VirtualWorldSensor getVirtualWorldSensor() {
-		if (virtualWorldSensor == null) {
-			virtualWorldSensor = new VirtualWorldSensor();
-			virtualWorldSensor.setVirtualWorld(this);
-			virtualWorldSensor.setVirtualWorldModel(getVirtualWorldModel());
+		if (this.virtualWorldSensor == null) {
+			this.virtualWorldSensor = new VirtualWorldSensor();
+			this.virtualWorldSensor.setVirtualWorld(this);
+			this.virtualWorldSensor.setVirtualWorldModel(getVirtualWorldModel());
 		}
-		return virtualWorldSensor;
+		return this.virtualWorldSensor;
 	}
 
-	// --- attributes
 	private boolean toBeReset = false;
 
 	public boolean isToBeReset() {
-		return toBeReset;
+		return this.toBeReset;
 	}
 
-	public void setToBeReset(boolean r) {
-		toBeReset = r;
+	public void setToBeReset(final boolean r) {
+		this.toBeReset = r;
 	}
 
 	private boolean toAddNewBlock = false;
 
 	public boolean isToAddNewBlock() {
-		return toAddNewBlock;
+		return this.toAddNewBlock;
 	}
 
-	public void setToAddNewBlock(boolean n) {
-		toAddNewBlock = n;
+	public void setToAddNewBlock(final boolean n) {
+		this.toAddNewBlock = n;
 	}
 
 	private boolean durativeActionRunning = true;
 
 	public boolean isDurativeActionRunning() {
-		return durativeActionRunning;
+		return this.durativeActionRunning;
 	}
 
-	public void setDurativeActionRunning(boolean r) {
-		durativeActionRunning = r;
+	public void setDurativeActionRunning(final boolean r) {
+		this.durativeActionRunning = r;
 		setChanged();
-		notifyObservers(r ? VirtualWorld.RunState.RUNNING
-				: VirtualWorld.RunState.PAUSED); // inform listeners.
+		notifyObservers(r ? VirtualWorld.RunState.RUNNING : VirtualWorld.RunState.PAUSED); // inform listeners.
 	}
 
-	// --- public methods
 	public String getDurativeArmActionStatusMessage() {
 		return getRobotArm().getDurativeArmAction().getStatusMessage();
 	}
@@ -257,7 +241,7 @@ public class VirtualWorld extends Observable implements StimulatorListener {
 		return tableId;
 	}
 
-	public boolean isValidBlockId(String id) {
+	public boolean isValidBlockId(final String id) {
 		return getVirtualWorldModel().isValidBlockId(id);
 	}
 
@@ -265,7 +249,7 @@ public class VirtualWorld extends Observable implements StimulatorListener {
 		return getVirtualWorldModel().getVirtualWorldWidth();
 	}
 
-	public void setVirtualWorldWidth(double w) {
+	public void setVirtualWorldWidth(final double w) {
 		getVirtualWorldModel().setVirtualWorldWidth(w);
 	}
 
@@ -273,86 +257,76 @@ public class VirtualWorld extends Observable implements StimulatorListener {
 		return getVirtualWorldModel().getVirtualWorldHeight();
 	}
 
-	public void setVirtualWorldHeight(double h) {
+	public void setVirtualWorldHeight(final double h) {
 		getVirtualWorldModel().setVirtualWorldHeight(h);
 	}
 
-	// --- handles Drag and Drop
 	private boolean externallyPerturbed = false;
 	private Point2D selectPoint;
 	private Block selectBlock;
 	private Point2D selectBlockOrigin;
 	private boolean selectBlockHeld;
 
-	// public boolean isBlockSelected() {
-	// return selectBlock != null;
-	// }
-
-	public boolean isPointOverBlock(Point2D point) {
+	public boolean isPointOverBlock(final Point2D point) {
 		return getVirtualWorldModel().findBlockIntersectWith(point) != null;
 	}
 
 	public Point2D getSelectPoint() {
-		return selectPoint;
+		return this.selectPoint;
 	}
 
-	public void setSelectPoint(Point2D sp) {
+	public void setSelectPoint(final Point2D sp) {
 		if (sp == null) {
 			// release select point
-			if (selectBlock != null) {
+			if (this.selectBlock != null) {
 				// only need to release select point if it is previous set
-				if (!selectBlock.isCoordLegal()) {
+				if (!this.selectBlock.isCoordLegal()) {
 					// return to original location
-					selectBlock.setCoord(selectBlockOrigin);
-					if (selectBlockHeld) {
-						selectBlock.setBeingHeld(true);
-						// selectBlock.setHoldingRobotArm(getRobotArm());
+					this.selectBlock.setCoord(this.selectBlockOrigin);
+					if (this.selectBlockHeld) {
+						this.selectBlock.setBeingHeld(true);
 					}
-					selectBlock.setCoordLegal(true);
+					this.selectBlock.setCoordLegal(true);
 				}
-				getVirtualWorldModel().insertBlock(selectBlock);
-				selectBlockOrigin = null;
-				selectBlock = null;
+				getVirtualWorldModel().insertBlock(this.selectBlock);
+				this.selectBlockOrigin = null;
+				this.selectBlock = null;
 				setAvailable(true);
-				externallyPerturbed = true;
+				this.externallyPerturbed = true;
 			}
 		} else {
 			// set select point
-			selectBlock = getVirtualWorldModel().findBlockIntersectWith(sp);
-			if (selectBlock != null) {
-				selectBlockOrigin = selectBlock.getCoord();
-				selectBlockHeld = selectBlock.isBeingHeld();
+			this.selectBlock = getVirtualWorldModel().findBlockIntersectWith(sp);
+			if (this.selectBlock != null) {
+				this.selectBlockOrigin = this.selectBlock.getCoord();
+				this.selectBlockHeld = this.selectBlock.isBeingHeld();
 				setAvailable(false);
 			}
 		}
-		selectPoint = sp;
+		this.selectPoint = sp;
 	}
 
 	private Point2D targetPoint;
 
 	public Point2D getTargetPoint() {
-		return targetPoint;
+		return this.targetPoint;
 	}
 
-	public void setTargetPoint(Point2D tp) {
-
-		if (selectBlock == null) {
+	public void setTargetPoint(final Point2D tp) {
+		if (this.selectBlock == null) {
 			// no block selected
 			return;
 		}
 
 		// move selected block to target point
-		double dx = tp.getX() - selectPoint.getX();
-		double dy = tp.getY() - selectPoint.getY();
-		Point2D translatedOrigin = new Point2D.Double(selectBlockOrigin.getX()
-				+ dx, selectBlockOrigin.getY() + dy);
-		// selectBlock.setCoord(translatedOrigin);
-
-		// getVirtualWorldModel().snapBlock(selectBlock);
+		final double dx = tp.getX() - this.selectPoint.getX();
+		final double dy = tp.getY() - this.selectPoint.getY();
+		final Point2D translatedOrigin = new Point2D.Double(this.selectBlockOrigin.getX() + dx,
+				this.selectBlockOrigin.getY() + dy);
 
 		// move block and snap block to closest grid
-		getVirtualWorldModel().snapMoveBlock(selectBlock, translatedOrigin);
-		externallyPerturbed = true;
+		getVirtualWorldModel().snapMoveBlock(this.selectBlock, translatedOrigin);
+		this.externallyPerturbed = true;
 	}
 
 	public boolean isVirtualWorldAvailable() {
@@ -360,21 +334,14 @@ public class VirtualWorld extends Observable implements StimulatorListener {
 	}
 
 	/**
-	 * @modified sends event to EIS to indicate environment is (temporarily)
-	 *           paused or not.
+	 * @modified sends event to EIS to indicate environment is (temporarily) paused
+	 *           or not.
 	 */
-	public void setAvailable(boolean a) {
+	public void setAvailable(final boolean a) {
 		getVirtualWorldModel().setAvailable(a);
-
-		// TODO:
-		// if (a == false) {
-		// notifyEvent(TowerInterface.PAUSED_EVT);
-		// } else {
-		// notifyEvent(TowerInterface.STARTED_EVT);
-		// }
 	}
 
-	public void render(Graphics g) {
+	public void render(final Graphics g) {
 		getVirtualWorldModel().render(g);
 	}
 
@@ -382,13 +349,13 @@ public class VirtualWorld extends Observable implements StimulatorListener {
 		return getVirtualWorldModel().isChanged();
 	}
 
+	@Override
 	public void stimuStep() {
-
-		if (!externallyPerturbed) {
+		if (!this.externallyPerturbed) {
 			// only clears if not under external perturbation
 			getVirtualWorldModel().setChanged(false);
 		}
-		externallyPerturbed = false;
+		this.externallyPerturbed = false;
 
 		if (isToBeReset()) {
 			reset();
@@ -398,12 +365,13 @@ public class VirtualWorld extends Observable implements StimulatorListener {
 			addNewBlock();
 			setToAddNewBlock(false);
 		}
-		if (isDurativeActionRunning())
+		if (isDurativeActionRunning()) {
 			getRobotArm().getDurativeArmAction().actionStep();
+		}
 	}
 
 	public void addNewBlock() {
-		Block b = getNewBlockCreator().createNewBlock();
+		final Block b = getNewBlockCreator().createNewBlock();
 		b.setHoldingRobotArm(getRobotArm());
 		getVirtualWorldModel().addBlockInFirstNonOccupiedColumn(b);
 	}
@@ -418,5 +386,4 @@ public class VirtualWorld extends Observable implements StimulatorListener {
 		getNewBlockCreator().reset();
 		initVirtualWorldChildren();
 	}
-
 }
