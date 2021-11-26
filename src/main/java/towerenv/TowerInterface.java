@@ -149,7 +149,7 @@ public class TowerInterface extends EIDefaultImpl implements Observer {
 			final Identifier previouslyGripped = this.holding.get(entity);
 			if (gripped == null && previouslyGripped != null) {
 				delList.add(new Percept("holding", previouslyGripped));
-				this.previousPercepts.remove(entity);
+				this.holding.remove(entity);
 			}
 			if (gripped != null) {
 				final Identifier holdingNow = new Identifier(gripped.getId().toLowerCase());
